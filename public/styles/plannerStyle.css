@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500&display=swap');
+* {
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+}
+input {
+  background: transparent;
+  font-size: large;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  margin: 0;
+
+  background-color: #fff1a7;
+  box-sizing: border-box;
+}
+#title {
+  font-weight: 500;
+}
+#topBar {
+  position: sticky;
+  top: 0%;
+  display: flex;
+  flex-wrap: wrap;
+}
+#topBar div {
+  display: flex;
+  padding: 1em;
+  justify-content: space-between;
+  /* align-self: center; */
+}
+#topBar img,
+#notStarted,
+#inProgress,
+#completed {
+  cursor: pointer;
+}
+#title {
+  background-color: gray;
+  flex-grow: 1;
+}
+#notStarted {
+  background-color: #fdff8c;
+  flex-grow: 2;
+}
+#inProgress {
+  background-color: #ffec87;
+  flex-grow: 2;
+}
+#completed {
+  background-color: #e2ffa5;
+  flex-grow: 2;
+}
+/******************** Search Bar ********************/
+
+#searchBarDiv input {
+  width: 98%;
+  margin: 1% 1%;
+  padding: 1% 2%;
+  background-color: #8e8e8e;
+  border-radius: 30px;
+  color: #d7d7d7;
+}
+/******************** mainSection ********************/
+#mainSection {
+  padding: 10px;
+}
+.taskCard {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #c2c2c2;
+  padding: 20px 25px;
+  margin-bottom: 8px;
+  column-gap: 2%;
+}
+.taskCard img {
+  cursor: pointer;
+}
+#taskTitle {
+  flex-grow: 1;
+}
+@media only screen and (max-width: 1150px) {
+  .taskCard {
+    row-gap: 10px;
+  }
+  #taskTitle {
+    flex: 0 1 100%;
+  }
+}
+
+#createTaskBtn {
+  position: fixed;
+  bottom: 5%;
+  right: 3%;
+}
+#createTaskBtn:hover {
+  transform: scale(1.2);
+}
