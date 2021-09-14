@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500&display=swap');
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+body {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  background-color: #eff0eb;
+}
+.login {
+  width: 25rem;
+  box-shadow: 0 0 25px #696969aa;
+  padding: 3rem 3rem 4rem;
+}
+p {
+  color: #494949;
+  text-align: center;
+  margin-bottom: 1em;
+}
+.input {
+  padding: 1rem 1.5rem;
+  background: #c0c0c022;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
+}
+.input__email,
+.input__password,
+.form__button {
+  display: block;
+  width: 100%;
+}
+.input__email::placeholder,
+.input__password::placeholder {
+  opacity: 0.25;
+}
+.input__email,
+.input__password {
+  border: 0;
+  height: 1rem;
+  background: none;
+  font-weight: bold;
+  color: #494949;
+  outline: none;
+  border-bottom: 1px solid transparent;
+}
+
+.form__button {
+  padding: 1rem;
+  border: 0;
+  border-radius: 0.25rem;
+  background: dodgerblue;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.05s;
+}
+.form__button:hover {
+  box-shadow: 2px 3px 7px #696969aa;
+}
+.form__button:active {
+  transform: translateY(2px);
+}
+.form__button:last-of-type {
+  margin-top: 1rem;
+}
