@@ -11,37 +11,127 @@
   </head>
   <body>
     <main id="parent">
-      <header id="topBar">
-        <div id="title">
-          PLANNER
-          <img src="./images/sortIcon.svg" alt="sort-notStarted" />
-        </div>
-        <div id="notStarted">
-          Not Started
-          <img src="./images/sortIcon.svg" alt="sort-notStarted" />
-        </div>
-        <div id="inProgress">
-          In Progress
-          <img src="./images/sortIcon.svg" alt="sort-inProgress" />
-        </div>
-        <div id="completed">
-          Completed
-          <img src="./images/sortIcon.svg" alt="sort-completed" />
-        </div>
-      </header>
-      <div id="searchBarDiv">
-        <input type="text" name="SearchBar" id="SearchBar" placeholder="Search tasks" />
+      <!-------------------------------------------- TITLE BAR -------------------------------------------->
+      <div id="titleBar">
+        <p>TODO DESK</p>
+        <input type="text" name="searchBar" id="searchBar" placeholder="Search tasks" />
+        <img src="./images/sortIcon.svg" alt="sort-notStarted" />
       </div>
+      <!-------------------------------------------- MAIN SECTION -------------------------------------------->
       <section id="mainSection">
-        <div class="taskCard">
-          <input type="text" name="taskTitle" id="taskTitle" placeholder="Title" maxlength="60" />
-          <input type="datetime-local" name="startDate" id="startDate" />
-          <input type="datetime-local" name="endDate" id="endDate" />
-          <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" />
-          <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
-          <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
+        <!------------------------------ NOT STARTED FLEX COLUMN ------------------------------>
+        <div id="notStarted">
+          <div id="notStartedTitle">
+            Not Started
+            <img src="./images/sortIcon.svg" alt="sort-notStarted" />
+          </div>
+          <div id="notStartedContent">
+            <div class="taskCard">
+              <input
+                type="text"
+                name="taskTitle"
+                id="taskTitle"
+                placeholder="Title"
+                maxlength="60"
+              />
+              <input type="datetime-local" name="startDate" id="startDate" />
+              <input type="datetime-local" name="endDate" id="endDate" />
+              <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" />
+              <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
+              <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
+            </div>
+          </div>
+        </div>
+        <!------------------------------ IN PROGRESS FLEX COLUMN ------------------------------>
+        <div id="inProgress">
+          <div id="inProgressTitle">
+            In Progress
+            <img src="./images/sortIcon.svg" alt="sort-inProgress" />
+          </div>
+          <div id="inProgressContent">
+            <div class="taskCard">
+              <input
+                type="text"
+                name="taskTitle"
+                id="taskTitle"
+                placeholder="Title"
+                maxlength="60"
+              />
+              <input type="datetime-local" name="startDate" id="startDate" />
+              <input type="datetime-local" name="endDate" id="endDate" />
+              <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" />
+              <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
+              <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
+            </div>
+            <div class="taskCard">
+              <input
+                type="text"
+                name="taskTitle"
+                id="taskTitle"
+                placeholder="Title"
+                maxlength="60"
+              />
+              <input type="datetime-local" name="startDate" id="startDate" />
+              <input type="datetime-local" name="endDate" id="endDate" />
+              <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" />
+              <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
+              <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
+            </div>
+            <div class="taskCard">
+              <input
+                type="text"
+                name="taskTitle"
+                id="taskTitle"
+                placeholder="Title"
+                maxlength="60"
+              />
+              <input type="datetime-local" name="startDate" id="startDate" />
+              <input type="datetime-local" name="endDate" id="endDate" />
+              <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" />
+              <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
+              <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
+            </div>
+            <div class="taskCard">
+              <input
+                type="text"
+                name="taskTitle"
+                id="taskTitle"
+                placeholder="Title"
+                maxlength="60"
+              />
+              <input type="datetime-local" name="startDate" id="startDate" />
+              <input type="datetime-local" name="endDate" id="endDate" />
+              <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" />
+              <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
+              <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
+            </div>
+          </div>
+        </div>
+        <!------------------------------ COMPLETED FLEX COLUMN ------------------------------>
+        <div id="completed">
+          <div id="completedTitle">
+            Completed
+            <img src="./images/sortIcon.svg" alt="sort-inProgress" />
+          </div>
+          <div id="completedContent">
+            <div class="taskCard">
+              <input
+                type="text"
+                name="taskTitle"
+                id="taskTitle"
+                placeholder="Title"
+                maxlength="60"
+              />
+              <input type="datetime-local" name="startDate" id="startDate" />
+              <input type="datetime-local" name="endDate" id="endDate" />
+              <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" />
+              <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
+              <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
+            </div>
+          </div>
         </div>
       </section>
+
       <footer>
         <img
           id="createTaskBtn"
@@ -52,6 +142,6 @@
         />
       </footer>
     </main>
-    <script src="./scripts/userData.js"></script>
+    <!-- <script src="./scripts/userData.js"></script> -->
   </body>
 </html>

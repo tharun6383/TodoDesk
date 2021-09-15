@@ -6,9 +6,21 @@ const completedBtn = document.getElementById('completed');
 const BGCOLOR_1 = '#FEFFAF',
   BGCOLOR_2 = '#FFF1A7',
   BGCOLOR_3 = '#C6FF9A';
+const intervalFunction = '';
+
+const highlightCard = () => {
+  Array.from(mainSection.children).forEach((card) => {
+    console.log(card);
+    const currentDate = new Date();
+    const dueDate = new Date('2022-06-12T19:30');
+    if (currentDate > dueDate) {
+    }
+  });
+};
 
 const loadTasks = (data, bgColor) => {
   console.log(typeof data, data);
+  clearInterval(intervalFunction);
   mainSection.innerHTML = '';
   for (const [taskid, taskData] of Object.entries(data)) {
     const [taskTitle, startDate, endDate] = taskData;
@@ -22,6 +34,7 @@ const loadTasks = (data, bgColor) => {
   <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
 </div>`;
   }
+  intervalFunction = setInterval(() => highlightCard(), 1000 * 30);
 };
 
 const requestOptionsGet = {
