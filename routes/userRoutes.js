@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const userValidation = require('../services/userValidation');
 const router = express.Router();
 
@@ -33,8 +34,22 @@ router.post('/login', (req, res) => {
   }
 });
 
-router.get('/userData', (req, res) => {
-  console.log(req.session);
-  res.send('nothing');
+const readData = (username, requiredData) => {
+  const data = fs.readFileSync(path.join(__dirname, '../services/loginCredentials.json'), 'utf-8');
+  const users = JSON.parse(data);
+  return JSON.stringify(users[username][requiredData]);
+};
+
+router.get('/notStartedData', (req, res) => {
+  const notStartedData = readData(req.session.username, 'notStarted');
+  res.send(notStartedData);
+});
+router.get('/inProgressData', (req, res) => {
+  const inProgressData = readData(req.session.username, 'inProgress');
+  res.send(inProgressData);
+});
+router.get('/completedData', (req, res) => {
+  const completedData = readData(req.session.username, 'completed');
+  res.send(completedData);
 });
 module.exports = router;
