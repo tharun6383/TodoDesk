@@ -46,7 +46,7 @@ router.get('/userTaskData', (req, res) => {
   res.send(result);
 });
 
-router.post('/newTask', async (req, res) => {
+router.post('/newTask', (req, res) => {
   const username = req.session.username;
   const data = fs.readFileSync(JSON_PATH, 'utf-8');
   const users = JSON.parse(data);
@@ -57,4 +57,14 @@ router.post('/newTask', async (req, res) => {
   });
 });
 
+router.post('/deleteTask', (req, res) => {
+  const username = req.session.username;
+  const data = fs.readFileSync(JSON_PATH, 'utf-8');
+  const users = JSON.parse(data);
+  users[username].tasks.splice(req.id, 1);
+  fs.writeFile(JSON_PATH, JSON.stringify(users), (err) => {
+    if (err) throw err;
+  });
+  res.end();
+});
 module.exports = router;

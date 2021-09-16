@@ -20,7 +20,7 @@ const highlightCard = () => {
 
 const insertCard = (section, taskid, taskData) => {
   const [taskTitle, startDate, endDate, status] = taskData;
-  section.innerHTML += `<div class="taskCard">
+  section.innerHTML += `<div class="taskCard" data-id=${taskid}>
   <input
     type="text"
     name="taskTitle"
@@ -31,9 +31,9 @@ const insertCard = (section, taskid, taskData) => {
   />
   <input type="datetime-local" name="startDate" id="startDate" value="${startDate}"/>
   <input type="datetime-local" name="endDate" id="endDate" value="${endDate}"/>
-  <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" data-id=${taskid} />
-  <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" data-id=${taskid}/>
-  <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" data-id=${taskid}/>
+  <img class="doneBtn" src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px"  />
+  <img class="saveBtn" src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
+  <img class="deleteBtn" src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px"  onclick="deleteTask(${taskid})"/>
 </div>`;
 };
 
