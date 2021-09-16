@@ -116,15 +116,26 @@
           <div id="completedContent"></div>
         </div>
       </section>
+      <!-- pop up -->
+      <div id="open-popup" class="popUp">
+        <p>New Task</p>
+        <a href="#close" title="Close" class="close">Close</a>
+        <input type="text" id="newTaskTitle" placeholder="Title" maxlength="30" />
+        <input type="datetime-local" id="newTaskStartDate" />
+        <input type="datetime-local" id="newTaskEndDate" />
+        <a href="#close"><button id="newTaskInsertBtn">DONE</button></a>
+      </div>
 
+      <!-- footer -->
       <footer>
-        <img
-          id="createTaskBtn"
-          src="./images/plusIcon.svg"
-          alt="createTask"
-          width="60px"
-          height="60px"
-        />
+        <a href="#open-popup">
+          <img
+            id="createTaskBtn"
+            src="./images/plusIcon.svg"
+            alt="createTask"
+            width="60px"
+            height="60px"
+        /></a>
       </footer>
     </main>
     <script src="./scripts/userData.js"></script>

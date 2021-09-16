@@ -1,6 +1,10 @@
 const notStartedSection = document.getElementById('notStartedContent');
 const inProgressSection = document.getElementById('inProgressContent');
 const completedSection = document.getElementById('completedContent');
+const newTaskTitle = document.getElementById('newTaskTitle');
+const newTaskStartDate = document.getElementById('newTaskStartDate');
+const newTaskEndDate = document.getElementById('newTaskEndDate');
+const newTaskInsertBtn = document.getElementById('newTaskInsertBtn');
 
 const intervalFunction = '';
 
@@ -47,6 +51,23 @@ const loadTasks = (data) => {
   }
   // intervalFunction = setInterval(() => highlightCard(), 1000 * 30);
 };
+
+newTaskInsertBtn.addEventListener('click', () => {
+  if (newTaskTitle.value && newTaskStartDate.value && newTaskStartDate.value) {
+    const requestOptionsPost = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: `["${newTaskTitle.value}","${newTaskStartDate.value}","${newTaskStartDate.value}","notStarted"]`,
+      redirect: 'follow',
+    };
+    fetch('/newTask', requestOptionsPost)
+      .then((response) => response.json())
+      .then((result) => loadTasks(result))
+      .catch((err) => console.log(err));
+  } else {
+    window.alert('Insufficient data');
+  }
+});
 
 const requestOptionsGet = {
   method: 'GET',

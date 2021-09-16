@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const userValidation = require('../services/userValidation');
 const router = express.Router();
+const JSON_PATH = path.join(__dirname, '../services/loginCredentials.json');
 
 // home page route
 router.get('/', (req, res) => {
@@ -35,7 +36,7 @@ router.post('/login', (req, res) => {
 });
 
 const readData = (username) => {
-  const data = fs.readFileSync(path.join(__dirname, '../services/loginCredentials.json'), 'utf-8');
+  const data = fs.readFileSync(JSON_PATH, 'utf-8');
   const users = JSON.parse(data);
   return JSON.stringify(users[username].tasks);
 };
@@ -43,6 +44,17 @@ const readData = (username) => {
 router.get('/userTaskData', (req, res) => {
   const result = readData(req.session.username);
   res.send(result);
+});
+
+router.post('/newTask', async (req, res) => {
+  const username = req.session.username;
+  const data = fs.readFileSync(JSON_PATH, 'utf-8');
+  const users = JSON.parse(data);
+  users[username].tasks.push(req.body);
+  fs.writeFile(JSON_PATH, JSON.stringify(users), (err) => {
+    if (err) throw err;
+    else res.send(readData(username));
+  });
 });
 
 module.exports = router;
