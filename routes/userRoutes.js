@@ -34,22 +34,15 @@ router.post('/login', (req, res) => {
   }
 });
 
-const readData = (username, requiredData) => {
+const readData = (username) => {
   const data = fs.readFileSync(path.join(__dirname, '../services/loginCredentials.json'), 'utf-8');
   const users = JSON.parse(data);
-  return JSON.stringify(users[username][requiredData]);
+  return JSON.stringify(users[username].tasks);
 };
 
-router.get('/notStartedData', (req, res) => {
-  const notStartedData = readData(req.session.username, 'notStarted');
-  res.send(notStartedData);
+router.get('/userTaskData', (req, res) => {
+  const result = readData(req.session.username);
+  res.send(result);
 });
-router.get('/inProgressData', (req, res) => {
-  const inProgressData = readData(req.session.username, 'inProgress');
-  res.send(inProgressData);
-});
-router.get('/completedData', (req, res) => {
-  const completedData = readData(req.session.username, 'completed');
-  res.send(completedData);
-});
+
 module.exports = router;

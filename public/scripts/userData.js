@@ -1,11 +1,7 @@
-const mainSection = document.getElementById('mainSection');
-const htmlBody = document.getElementsByTagName('BODY')[0];
-const notStartedBtn = document.getElementById('notStarted');
-const inProgressBtn = document.getElementById('inProgress');
-const completedBtn = document.getElementById('completed');
-const BGCOLOR_1 = '#FEFFAF',
-  BGCOLOR_2 = '#FFF1A7',
-  BGCOLOR_3 = '#C6FF9A';
+const notStartedSection = document.getElementById('notStartedContent');
+const inProgressSection = document.getElementById('inProgressContent');
+const completedSection = document.getElementById('completedContent');
+
 const intervalFunction = '';
 
 const highlightCard = () => {
@@ -18,23 +14,38 @@ const highlightCard = () => {
   });
 };
 
-const loadTasks = (data, bgColor) => {
-  console.log(typeof data, data);
-  clearInterval(intervalFunction);
-  mainSection.innerHTML = '';
-  for (const [taskid, taskData] of Object.entries(data)) {
-    const [taskTitle, startDate, endDate] = taskData;
-    htmlBody.style.backgroundColor = bgColor;
-    mainSection.innerHTML += `<div class="taskCard" data-id="${taskid}">
-  <input type="text" name="taskTitle" id="taskTitle" placeholder="Title" maxlength="60" value="${taskTitle}"/>
+const insertCard = (section, taskid, taskData) => {
+  const [taskTitle, startDate, endDate, status] = taskData;
+  section.innerHTML += `<div class="taskCard">
+  <input
+    type="text"
+    name="taskTitle"
+    id="taskTitle"
+    placeholder="Title"
+    maxlength="30"
+    value="${taskTitle}"
+  />
   <input type="datetime-local" name="startDate" id="startDate" value="${startDate}"/>
   <input type="datetime-local" name="endDate" id="endDate" value="${endDate}"/>
-  <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" />
-  <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
-  <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" />
+  <img src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" data-id=${taskid} />
+  <img src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" data-id=${taskid}/>
+  <img src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" data-id=${taskid}/>
 </div>`;
+};
+
+const loadTasks = (data) => {
+  clearInterval(intervalFunction);
+  notStartedSection.innerHTML = '';
+  inProgressSection.innerHTML = '';
+  completedSection.innerHTML = '';
+  for (const [taskid, taskData] of Object.entries(data)) {
+    console.log(typeof taskData, taskData);
+    const [, , , status] = taskData;
+    if (status === 'notStarted') insertCard(notStartedSection, taskid, taskData);
+    else if (status === 'inProgress') insertCard(inProgressSection, taskid, taskData);
+    else insertCard(completedSection, taskid, taskData);
   }
-  intervalFunction = setInterval(() => highlightCard(), 1000 * 30);
+  // intervalFunction = setInterval(() => highlightCard(), 1000 * 30);
 };
 
 const requestOptionsGet = {
@@ -48,13 +59,4 @@ const callAPI = async (url) => {
     .catch((err) => console.log(err));
 };
 
-callAPI('/notStartedData').then((result) => loadTasks(result, BGCOLOR_1));
-notStartedBtn.addEventListener('click', () => {
-  callAPI('/notStartedData').then((result) => loadTasks(result, BGCOLOR_1));
-});
-inProgressBtn.addEventListener('click', () => {
-  callAPI('/inProgressData').then((result) => loadTasks(result, BGCOLOR_2));
-});
-completedBtn.addEventListener('click', () => {
-  callAPI('/completedData').then((result) => loadTasks(result, BGCOLOR_3));
-});
+callAPI('/userTaskData').then((result) => loadTasks(result));

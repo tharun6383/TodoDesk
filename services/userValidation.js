@@ -10,7 +10,7 @@ const addUser = (uname, pass) => {
   const data = fs.readFileSync(__dirname + '/loginCredentials.json', 'utf-8');
   const users = JSON.parse(data);
   console.log(users[uname]);
-  users[uname] = { pwd: pass.toString(), notStarted: [], inProgress: [], completed: [] };
+  users[uname] = { pwd: pass.toString(), tasks: [] };
   fs.writeFile(__dirname + '/loginCredentials.json', JSON.stringify(users), (err) => {
     if (err) throw err;
     console.log('User added');
