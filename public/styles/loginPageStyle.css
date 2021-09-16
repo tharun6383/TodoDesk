@@ -31,7 +31,7 @@ p {
 }
 .input__email,
 .input__password,
-.form__button {
+.formBtn {
   display: block;
   width: 100%;
 }
@@ -50,7 +50,7 @@ p {
   border-bottom: 1px solid transparent;
 }
 
-.form__button {
+.formBtn {
   padding: 1rem;
   border: 0;
   border-radius: 0.25rem;
@@ -60,12 +60,17 @@ p {
   cursor: pointer;
   transition: box-shadow 0.25s, transform 0.05s;
 }
-.form__button:hover {
+.formBtn:hover {
   box-shadow: 2px 3px 7px #696969aa;
 }
-.form__button:active {
+.formBtn:active {
   transform: translateY(2px);
 }
-.form__button {
+.formBtn {
   margin-top: 1rem;
+}
+#errorMsg {
+  font-size: small;
+  color: rgb(255, 115, 0);
+  padding: 1%;
 }

@@ -11,7 +11,7 @@
   <body>
     <div class="login">
       <p>Welcome!</p>
-      <form class="form" action="/login" method="POST">
+      <form class="form" action="/userin" method="POST">
         <div class="input">
           <input type="text" class="input__email" placeholder="Username" name="uname" required />
         </div>
@@ -24,10 +24,11 @@
             required
           />
         </div>
-        <button class="form__button" id="logInBtn" type="submit" value="login" name="action">
+        <div id="errorMsg"><% if(messages.error) { %> <%= messages.error %> <% } %></div>
+        <button class="formBtn" id="logInBtn" type="submit" value="login" name="action">
           Log in
         </button>
-        <button class="form__button" id="signInBtn" type="submit" value="signin" name="action">
+        <button class="formBtn" id="signInBtn" type="submit" value="signin" name="action">
           Sign in
         </button>
       </form>

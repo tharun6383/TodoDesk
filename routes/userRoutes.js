@@ -8,30 +8,33 @@ const JSON_PATH = path.join(__dirname, '../services/loginCredentials.json');
 // home page route
 router.get('/', (req, res) => {
   if (req.session.loggedin === true) {
-    res.sendFile(path.join(__dirname, '../public/planner.html'));
+    res.render('planner.ejs');
   } else {
-    res.sendFile(path.join(__dirname, '../public/login.html'));
+    res.render('login.ejs');
   }
 });
 
 //function to validate user
-router.post('/login', (req, res) => {
+router.post('/userin', (req, res) => {
   const result = userValidation.validateUser(req.body.uname, req.body.pwd);
   if (result === 1) {
     req.session.loggedin = true;
     req.session.username = req.body.uname;
-    res.sendFile(path.join(__dirname, '../public/planner.html'));
+    res.render('planner.ejs');
   } else if (req.body.action === 'login') {
-    if (result === 2) res.send('Invalid Username/Password');
-    else res.send('Username not found! Try Signing In.');
+    if (result === 2) req.flash('error', 'Invalid Username/Password');
+    else req.flash('error', 'Username not found! Try Signing In.');
+    res.render('login.ejs');
   } else if (req.body.action === 'signin') {
-    if (result === 2) res.send('Username already taken');
+    if (result === 2) req.flash('error', 'Username already taken');
     else {
       userValidation.addUser(req.body.uname, req.body.pwd);
-      res.send('User Added');
+      req.flash('error', 'User Added');
     }
+    res.render('login.ejs');
   } else {
-    res.send('error');
+    req.flash('error', 'unknown error');
+    res.render('login.ejs');
   }
 });
 
