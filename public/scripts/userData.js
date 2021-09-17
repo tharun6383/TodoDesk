@@ -6,7 +6,7 @@ const newTaskStartDate = document.getElementById('newTaskStartDate');
 const newTaskEndDate = document.getElementById('newTaskEndDate');
 const newTaskInsertBtn = document.getElementById('newTaskInsertBtn');
 
-const intervalFunction = '';
+let intervalFunction = '';
 
 const callAPI = async (url, requestOptions) => {
   return fetch(url, requestOptions)
@@ -15,12 +15,17 @@ const callAPI = async (url, requestOptions) => {
 };
 
 const highlightCard = () => {
-  Array.from(mainSection.children).forEach((card) => {
-    console.log(card);
+  Array.from(notStartedSection.children).forEach((card) => {
     const currentDate = new Date();
-    const dueDate = new Date('2022-06-12T19:30');
-    if (currentDate > dueDate) {
-    }
+    const dueDate = new Date(card.children[1].value);
+    if (currentDate > dueDate) card.style.borderLeft = '8px solid #2196F3';
+    else card.style.borderLeft = 'none';
+  });
+  Array.from(inProgressSection.children).forEach((card) => {
+    const currentDate = new Date();
+    const dueDate = new Date(card.children[2].value);
+    if (currentDate > dueDate) card.style.borderLeft = '8px solid #2196F3';
+    else card.style.borderLeft = 'none';
   });
 };
 
@@ -55,7 +60,8 @@ const loadTasks = (data) => {
     else if (status === 'inProgress') insertCard(inProgressSection, taskid, taskData);
     else insertCard(completedSection, taskid, taskData);
   }
-  // intervalFunction = setInterval(() => highlightCard(), 1000 * 30);
+  highlightCard();
+  intervalFunction = setInterval(() => highlightCard(), 1000);
 };
 
 newTaskInsertBtn.addEventListener('click', () => {
