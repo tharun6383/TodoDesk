@@ -8,6 +8,12 @@ const newTaskInsertBtn = document.getElementById('newTaskInsertBtn');
 
 const intervalFunction = '';
 
+const callAPI = async (url, requestOptions) => {
+  return fetch(url, requestOptions)
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
 const highlightCard = () => {
   Array.from(mainSection.children).forEach((card) => {
     console.log(card);
@@ -31,8 +37,8 @@ const insertCard = (section, taskid, taskData) => {
   />
   <input type="datetime-local" name="startDate" id="startDate" value="${startDate}"/>
   <input type="datetime-local" name="endDate" id="endDate" value="${endDate}"/>
-  <img class="doneBtn" src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px"  />
-  <img class="saveBtn" src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" />
+  <img class="doneBtn" src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" onclick="tickTask(${taskid})" />
+  <img class="saveBtn" src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" onclick="modifyTask(${taskid})"/>
   <img class="deleteBtn" src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px"  onclick="deleteTask(${taskid})"/>
 </div>`;
 };
@@ -60,24 +66,24 @@ newTaskInsertBtn.addEventListener('click', () => {
       body: `["${newTaskTitle.value}","${newTaskStartDate.value}","${newTaskStartDate.value}","notStarted"]`,
       redirect: 'follow',
     };
-    fetch('/newTask', requestOptionsPost)
-      .then((response) => response.json())
-      .then((result) => loadTasks(result))
-      .catch((err) => console.log(err));
+    callAPI('/newTask', requestOptionsPost).then((result) => loadTasks(result));
   } else {
     window.alert('Insufficient data');
   }
 });
 
+const tickTask = (id) => {
+  const requestOptionsPost = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: `{"id":"${id}"}`,
+    redirect: 'follow',
+  };
+  callAPI('/tickTask', requestOptionsPost).then((result) => loadTasks(result));
+};
+
 const requestOptionsGet = {
   method: 'GET',
   redirect: 'follow',
 };
-
-const callAPI = async (url) => {
-  return fetch(url, requestOptionsGet)
-    .then((response) => response.json())
-    .catch((err) => console.log(err));
-};
-
-callAPI('/userTaskData').then((result) => loadTasks(result));
+callAPI('/userTaskData', requestOptionsGet).then((result) => loadTasks(result));

@@ -70,4 +70,32 @@ router.post('/deleteTask', (req, res) => {
   });
   res.end();
 });
+
+router.post('/modifyTask', (req, res) => {
+  const username = req.session.username;
+  const data = fs.readFileSync(JSON_PATH, 'utf-8');
+  const users = JSON.parse(data);
+  users[username].tasks[req.body.id][0] = req.body.taskTitle;
+  users[username].tasks[req.body.id][1] = req.body.startDate;
+  users[username].tasks[req.body.id][2] = req.body.endDate;
+  fs.writeFile(JSON_PATH, JSON.stringify(users), (err) => {
+    if (err) throw err;
+  });
+  res.end();
+});
+
+router.post('/tickTask', (req, res) => {
+  const username = req.session.username;
+  const data = fs.readFileSync(JSON_PATH, 'utf-8');
+  const users = JSON.parse(data);
+  const status = users[username].tasks[req.body.id][3];
+  if (status === 'notStarted') users[username].tasks[req.body.id][3] = 'inProgress';
+  else if (status === 'inProgress') users[username].tasks[req.body.id][3] = 'completed';
+  else users[username].tasks[req.body.id][3] = 'notStarted';
+  fs.writeFile(JSON_PATH, JSON.stringify(users), (err) => {
+    if (err) throw err;
+    else res.send(users[username].tasks);
+  });
+});
+
 module.exports = router;
