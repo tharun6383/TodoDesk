@@ -8,13 +8,57 @@ const newTaskInsertBtn = document.getElementById('newTaskInsertBtn');
 const searchBarList = document.getElementById('task-datalist');
 const searchBarInput = document.getElementById('searchBar');
 const doneBtns = document.getElementsByClassName('doneBtn');
-const deleteBtns = document.getElementsByClassName('deleteBtn');
 const saveBtns = document.getElementsByClassName('saveBtn');
+const deleteBtns = document.getElementsByClassName('deleteBtn');
+const sortAllBtn = document.getElementById('sortAllBtn');
+const sortNotStartedBtn = document.getElementById('sortNotStartedBtn');
+const sortInProgressBtn = document.getElementById('sortInProgressBtn');
+const sortCompletedBtn = document.getElementById('sortCompletedBtn');
 
-import { clearSection, highlightCard } from './util.js';
+import { clearSection, highlightCard, sortTask } from './util.js';
 
 let userData = [];
 let intervalFunction = '';
+
+sortAllBtn.addEventListener('click', () => {
+  userData = [...sortTask(userData, 1, 'notStarted')];
+  userData = [...sortTask(userData, 2, 'inProgress')];
+  userData = [...sortTask(userData, 1, 'completed')];
+  clearSection(notStartedSection, inProgressSection, completedSection);
+  groupTasks(userData).then(() => {
+    tickTask();
+    saveTask();
+    deleteTask();
+  });
+});
+
+sortNotStartedBtn.addEventListener('click', () => {
+  userData = [...sortTask(userData, 1, 'notStarted')];
+  clearSection(notStartedSection, inProgressSection, completedSection);
+  groupTasks(userData).then(() => {
+    tickTask();
+    saveTask();
+    deleteTask();
+  });
+});
+sortInProgressBtn.addEventListener('click', () => {
+  userData = [...sortTask(userData, 2, 'inProgress')];
+  clearSection(notStartedSection, inProgressSection, completedSection);
+  groupTasks(userData).then(() => {
+    tickTask();
+    saveTask();
+    deleteTask();
+  });
+});
+sortCompletedBtn.addEventListener('click', () => {
+  userData = [...sortTask(userData, 1, 'completed')];
+  clearSection(notStartedSection, inProgressSection, completedSection);
+  groupTasks(userData).then(() => {
+    tickTask();
+    saveTask();
+    deleteTask();
+  });
+});
 
 const callAPI = async (url, requestOptions) => {
   return fetch(url, requestOptions)
@@ -46,7 +90,7 @@ const insertCard = (section, taskid, taskData) => {
 const loadSearchBar = () => {
   searchBarList.innerHTML = '';
   userData.forEach((task) => {
-    searchBarList.innerHTML += `<option value="${task[0]}" data-sid="${task[4]}"></option>`;
+    searchBarList.innerHTML += `<option value="${task[0]}" ></option>`;
   });
 };
 
@@ -59,14 +103,8 @@ searchBarInput.addEventListener('change', () => {
     }
   }
   clearSection(notStartedSection, inProgressSection, completedSection);
-  // resultData.forEach((task) => {
-  //   const [, , , status, taskid] = task;
-  //   if (status === 'notStarted') insertCard(notStartedSection, taskid, task);
-  //   else if (status === 'inProgress') insertCard(inProgressSection, taskid, task);
-  //   else insertCard(completedSection, taskid, task);
-  // });
+
   groupTasks(resultData).then(() => {
-    loadSearchBar();
     tickTask();
     saveTask();
     deleteTask();
@@ -108,7 +146,7 @@ const loadTasks = async (data) => {
 
 /**EventListner for creating new task button */
 newTaskInsertBtn.addEventListener('click', () => {
-  if (newTaskTitle.value && newTaskStartDate.value && newTaskStartDate.value) {
+  if (newTaskTitle.value && newTaskStartDate.value && newTaskEndDate.value) {
     const requestOptionsPost = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
