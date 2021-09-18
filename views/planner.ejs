@@ -22,7 +22,7 @@
           placeholder="Search tasks"
         />
         <datalist id="task-datalist"> </datalist>
-        <img src="./images/sortIcon.svg" alt="sort-notStarted" style="cursor: pointer" />
+        <img src="./images/sortIcon.svg" id="sortAllBtn" alt="sort-all" style="cursor: pointer" />
       </div>
       <!-------------------------------------------- MAIN SECTION -------------------------------------------->
       <section id="mainSection">
@@ -30,7 +30,12 @@
         <div id="notStarted">
           <div id="notStartedTitle">
             Not Started
-            <img src="./images/sortIcon.svg" alt="sort-notStarted" style="cursor: pointer" />
+            <img
+              src="./images/sortIcon.svg"
+              id="sortNotStartedBtn"
+              alt="sort-notStarted"
+              style="cursor: pointer"
+            />
           </div>
           <div id="notStartedContent">
             <div class="taskCard">
@@ -71,7 +76,12 @@
         <div id="inProgress">
           <div id="inProgressTitle">
             In Progress
-            <img src="./images/sortIcon.svg" alt="sort-inProgress" style="cursor: pointer" />
+            <img
+              src="./images/sortIcon.svg"
+              id="sortInProgressBtn"
+              alt="sort-inProgress"
+              style="cursor: pointer"
+            />
           </div>
           <div id="inProgressContent">
             <div class="taskCard">
@@ -112,7 +122,12 @@
         <div id="completed">
           <div id="completedTitle">
             Completed
-            <img src="./images/sortIcon.svg" alt="sort-inProgress" style="cursor: pointer" />
+            <img
+              src="./images/sortIcon.svg"
+              id="sortCompletedBtn"
+              alt="sort-completed"
+              style="cursor: pointer"
+            />
           </div>
           <div id="completedContent"></div>
         </div>
