@@ -100,4 +100,15 @@ router.post('/modifyTask', (req, res) => {
   });
 });
 
+router.get('/username', (req, res) => {
+  res.send(JSON.stringify({ username: `${req.session.username}` }));
+});
+
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    console.log('Destroyed session');
+  });
+  res.redirect('/');
+});
+
 module.exports = router;

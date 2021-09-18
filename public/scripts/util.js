@@ -1,3 +1,15 @@
+const usernameBox = document.getElementById('username');
+const requestOptionsGet = {
+  method: 'GET',
+  redirect: 'follow',
+};
+
+export const callAPI = async (url, requestOptions) => {
+  return fetch(url, requestOptions)
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
+};
+
 export const clearSection = (...section) => {
   section.forEach((element) => {
     element.innerHTML = '';
@@ -25,3 +37,5 @@ export const sortTask = (data, index, section) => {
     return section === a[3] && a[3] === b[3] ? new Date(a[index]) - new Date(b[index]) : 0;
   });
 };
+
+callAPI('/username', requestOptionsGet).then((res) => (usernameBox.innerHTML = res.username));

@@ -13,15 +13,21 @@
     <main id="parent">
       <!-------------------------------------------- TITLE BAR -------------------------------------------->
       <div id="titleBar">
-        <p>TODO DESK</p>
-        <input
-          type="text"
-          list="task-datalist"
-          name="searchBar"
-          id="searchBar"
-          placeholder="Search tasks"
-        />
-        <datalist id="task-datalist"> </datalist>
+        <div style="display: inherit; align-items: center">
+          <a href="#mySidenav" style="margin-top: 2px">
+            <img
+              id="menuBtn"
+              src="./images/menuIcon.svg"
+              alt="createTask"
+              width="25px"
+              height="25px"
+            />
+          </a>
+          <p style="margin-left: 8px">TODO DESK</p>
+        </div>
+
+        <input type="text" name="searchBar" id="searchBar" placeholder="Search tasks" />
+
         <img src="./images/sortIcon.svg" id="sortAllBtn" alt="sort-all" style="cursor: pointer" />
       </div>
       <!-------------------------------------------- MAIN SECTION -------------------------------------------->
@@ -132,7 +138,7 @@
           <div id="completedContent"></div>
         </div>
       </section>
-      <!-- pop up -->
+      <!-- insert task pop up -->
       <div id="open-popup" class="popUp">
         <div class="popup-card">
           <h2>New Task</h2>
@@ -143,6 +149,18 @@
             <input type="datetime-local" id="newTaskEndDate" value="" />
           </div>
           <a href="#"><button id="newTaskInsertBtn">DONE</button></a>
+        </div>
+      </div>
+
+      <!-- insert task pop up -->
+      <div id="delete-popup">
+        <div class="popup-card">
+          <h2>Are you sure you want to delete this task?</h2>
+          <a class="close" href="#" title="Close">&times;</a>
+          <div class="content">
+            <a id="deleteYes" title="Yes">YES</a>
+            <a id="deleteNo" title="No">NO</a>
+          </div>
         </div>
       </div>
 
@@ -157,6 +175,14 @@
             height="70px"
         /></a>
       </footer>
+
+      <!-- side navigation bar -->
+      <div id="mySidenav" class="sidenav">
+        <a href="#" class="closebtn">&times;</a>
+        <p>Welcome!</p>
+        <p id="username">Username</p>
+        <button id="logout" onclick="location.href='/logout'">Logout</button>
+      </div>
     </main>
     <script type="module" src="./scripts/userData.js"></script>
   </body>

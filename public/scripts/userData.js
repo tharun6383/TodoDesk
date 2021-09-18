@@ -5,7 +5,7 @@ const newTaskTitle = document.getElementById('newTaskTitle');
 const newTaskStartDate = document.getElementById('newTaskStartDate');
 const newTaskEndDate = document.getElementById('newTaskEndDate');
 const newTaskInsertBtn = document.getElementById('newTaskInsertBtn');
-const searchBarList = document.getElementById('task-datalist');
+
 const searchBarInput = document.getElementById('searchBar');
 const doneBtns = document.getElementsByClassName('doneBtn');
 const saveBtns = document.getElementsByClassName('saveBtn');
@@ -14,8 +14,9 @@ const sortAllBtn = document.getElementById('sortAllBtn');
 const sortNotStartedBtn = document.getElementById('sortNotStartedBtn');
 const sortInProgressBtn = document.getElementById('sortInProgressBtn');
 const sortCompletedBtn = document.getElementById('sortCompletedBtn');
+const deletePopup = document.getElementById('delete-popup');
 
-import { clearSection, highlightCard, sortTask } from './util.js';
+import { clearSection, highlightCard, sortTask, callAPI } from './util.js';
 
 let userData = [];
 let intervalFunction = '';
@@ -60,12 +61,6 @@ sortCompletedBtn.addEventListener('click', () => {
   });
 });
 
-const callAPI = async (url, requestOptions) => {
-  return fetch(url, requestOptions)
-    .then((response) => response.json())
-    .catch((err) => console.log(err));
-};
-
 /**Insert tasks into DOM */
 const insertCard = (section, taskid, taskData) => {
   const [taskTitle, startDate, endDate, status] = taskData;
@@ -86,15 +81,7 @@ const insertCard = (section, taskid, taskData) => {
 </div>`;
 };
 
-/**load Search bar with Task Titles */
-const loadSearchBar = () => {
-  searchBarList.innerHTML = '';
-  userData.forEach((task) => {
-    searchBarList.innerHTML += `<option value="${task[0]}" ></option>`;
-  });
-};
-
-searchBarInput.addEventListener('change', () => {
+searchBarInput.addEventListener('input', () => {
   const resultData = [];
   console.log(searchBarInput.value, userData);
   for (const task of Object.values(userData)) {
@@ -133,7 +120,6 @@ const loadTasks = async (data) => {
   clearSection(notStartedSection, inProgressSection, completedSection);
 
   groupTasks(userData).then(() => {
-    loadSearchBar();
     tickTask();
     saveTask();
     deleteTask();
@@ -179,13 +165,22 @@ const tickTask = () => {
 const deleteTask = () => {
   Array.from(deleteBtns).forEach((btn) => {
     btn.addEventListener('click', () => {
-      const requestOptionsPost = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: `{"id":"${btn.getAttribute('data-did')}"}`,
-        redirect: 'follow',
-      };
-      callAPI('/deleteTask', requestOptionsPost).then((result) => loadTasks(result));
+      // console.log(deletePopup);
+      deletePopup.style.visibility = 'visible';
+      deletePopup.style.opacity = '1';
+      deletePopup.addEventListener('click', (e) => {
+        if (e.target.id === 'deleteYes') {
+          const requestOptionsPost = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: `{"id":"${btn.getAttribute('data-did')}"}`,
+            redirect: 'follow',
+          };
+          callAPI('/deleteTask', requestOptionsPost).then((result) => loadTasks(result));
+        }
+        deletePopup.style.visibility = 'hidden';
+        deletePopup.style.opacity = '0';
+      });
     });
   });
 };
