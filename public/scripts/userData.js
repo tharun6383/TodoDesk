@@ -75,9 +75,9 @@ const insertCard = (section, taskid, taskData) => {
   />
   <input type="datetime-local" name="startDate" id="startDate" value="${startDate}"/>
   <input type="datetime-local" name="endDate" id="endDate" value="${endDate}"/>
-  <img class="doneBtn" src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" data-tid="${taskid}"/>
-  <img class="saveBtn" src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" data-sid="${taskid}"/>
-  <img class="deleteBtn" src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" data-did="${taskid}"/>
+  <img class="doneBtn" src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" title="Mark as done" data-tid="${taskid}"/>
+  <img class="saveBtn" src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" title="Save task" data-sid="${taskid}"/>
+  <img class="deleteBtn" src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" title="Delete task" data-did="${taskid}"/>
 </div>`;
 };
 

@@ -13,7 +13,7 @@ const addUser = (uname, pass) => {
   users[uname] = { pwd: pass.toString(), tasks: [] };
   fs.writeFile(__dirname + '/loginCredentials.json', JSON.stringify(users), (err) => {
     if (err) throw err;
-    console.log('User added');
+    console.log('Account created! Kindly logIn.');
   });
 };
 module.exports = { validateUser, addUser };
