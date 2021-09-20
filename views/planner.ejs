@@ -156,8 +156,14 @@
           <a class="close" href="#" title="Close">&times;</a>
           <div class="content">
             <input type="text" id="newTaskTitle" placeholder="Title" value="" maxlength="30" />
-            <input type="datetime-local" id="newTaskStartDate" value="" />
-            <input type="datetime-local" id="newTaskEndDate" value="" />
+            <div>
+              <label for="newTaskStartDate">Start Date&nbsp; :</label>
+              <input type="datetime-local" id="newTaskStartDate" value="" />
+            </div>
+            <div>
+              <label for="newTaskEndDate">End Date &nbsp;&nbsp; :</label>
+              <input type="datetime-local" id="newTaskEndDate" value="" />
+            </div>
           </div>
           <a href="#"><button id="newTaskInsertBtn">DONE</button></a>
         </div>

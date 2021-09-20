@@ -33,9 +33,19 @@ export const highlightCard = (notStartedSection, inProgressSection) => {
 };
 
 export const sortTask = (data, index, section) => {
-  return data.sort((a, b) => {
-    return section === a[3] && a[3] === b[3] ? new Date(a[index]) - new Date(b[index]) : 0;
+  const notStarted = data.filter((task) => task[3] === 'notStarted');
+  const inProgress = data.filter((task) => task[3] === 'inProgress');
+  const completed = data.filter((task) => task[3] === 'completed');
+  let arr = [];
+  if (section === 'notStarted') arr = notStarted;
+  else if (section === 'inProgress') arr = inProgress;
+  else arr = completed;
+
+  arr.sort((a, b) => {
+    return new Date(a[index]) - new Date(b[index]);
   });
+
+  return Array.prototype.concat(notStarted, inProgress, completed);
 };
 
 callAPI('/username', requestOptionsGet).then((res) => (usernameBox.innerHTML = res.username));
