@@ -24,11 +24,20 @@
             required
           />
         </div>
+        <div class="input">
+          <input
+            type="password"
+            class="input__password"
+            placeholder="Re-enter Password"
+            name="pwd2"
+            required
+          />
+        </div>
         <div id="errorMsg"><% if(messages.error) { %> <%= messages.error %> <% } %></div>
-        <button class="formBtn" id="logInBtn" type="submit" value="login" name="action">
-          Log in
+        <button class="formBtn" id="signInBtn" type="submit" value="signin" name="action">
+          Sign in
         </button>
-        <a href="/signin" style="font-size: small">New user? signin</a>
+        <a href="/login" style="font-size: small">Already have an account? Login</a>
       </form>
     </div>
   </body>

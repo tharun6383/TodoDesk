@@ -9,8 +9,8 @@ const app = express();
 app.use(
   session({
     secret: 'secret123',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
   })
 );
 app.set('view engine', 'ejs');

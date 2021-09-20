@@ -270,6 +270,7 @@ body {
   margin-left: 50px;
 }
 #logout {
+  font-size: medium;
   cursor: pointer;
   margin-top: auto;
   margin-bottom: 20px;
@@ -278,5 +279,5 @@ body {
   transition: 300ms;
 }
 #logout:hover {
-  background-color: rgba(255, 30, 30, 0.932);
+  background-color: rgba(255, 6, 6, 0.932);
 }
