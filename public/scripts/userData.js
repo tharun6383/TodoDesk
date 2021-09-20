@@ -87,7 +87,7 @@ const insertCard = (section, taskid, taskData) => {
 
 searchBarInput.addEventListener('input', () => {
   const resultData = [];
-  console.log(searchBarInput.value, userData);
+  // console.log(searchBarInput.value, userData);
   for (const task of Object.values(userData)) {
     if (task[0].search(searchBarInput.value) != -1) {
       resultData.push(task);
@@ -169,22 +169,31 @@ const tickTask = () => {
 const deleteTask = () => {
   Array.from(deleteBtns).forEach((btn) => {
     btn.addEventListener('click', () => {
-      // console.log(deletePopup);
       deletePopup.style.visibility = 'visible';
       deletePopup.style.opacity = '1';
-      deletePopup.addEventListener('click', (e) => {
-        if (e.target.id === 'deleteYes') {
-          const requestOptionsPost = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: `{"id":"${btn.getAttribute('data-did')}"}`,
-            redirect: 'follow',
-          };
-          callAPI('/deleteTask', requestOptionsPost).then((result) => loadTasks(result));
-        }
-        deletePopup.style.visibility = 'hidden';
-        deletePopup.style.opacity = '0';
-      });
+      const id = btn.getAttribute('data-did');
+      deletePopup.addEventListener(
+        'click',
+        function clicked(e) {
+          if (e.target.id === 'deleteYes') {
+            const requestOptionsPost = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: `{"id":"${id}"}`,
+              redirect: 'follow',
+            };
+            // console.log(requestOptionsPost.body);
+            callAPI('/deleteTask', requestOptionsPost)
+              .then((result) => loadTasks(result))
+              .then(() => {
+                deletePopup.removeEventListener('click', clicked, false);
+              });
+          }
+          deletePopup.style.visibility = 'hidden';
+          deletePopup.style.opacity = '0';
+        },
+        false
+      );
     });
   });
 };
@@ -202,25 +211,32 @@ const editTask = () => {
         card.startDate.value,
         card.endDate.value,
       ];
-      editPopup.addEventListener('click', (e) => {
-        if (e.target.id === 'editSaveBtn') {
-          const requestOptionsPost = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: `{"id":"${btn.getAttribute('data-sid')}","taskTitle":"${
-              editTaskTitle.value
-            }","startDate":"${editTaskStartDate.value}","endDate":"${editTaskEndDate.value}"}`,
-            redirect: 'follow',
-          };
-          console.log(requestOptionsPost.body);
-          callAPI('/modifyTask', requestOptionsPost).then((result) => loadTasks(result));
-          editPopup.style.visibility = 'hidden';
-          editPopup.style.opacity = '0';
-        } else if (e.target.id === 'editCloseBtn') {
-          editPopup.style.visibility = 'hidden';
-          editPopup.style.opacity = '0';
-        }
-      });
+      editPopup.addEventListener(
+        'click',
+        function clicked(e) {
+          if (e.target.id === 'editSaveBtn') {
+            const requestOptionsPost = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: `{"id":"${id}","taskTitle":"${editTaskTitle.value}","startDate":"${editTaskStartDate.value}","endDate":"${editTaskEndDate.value}"}`,
+              redirect: 'follow',
+            };
+            // console.log(requestOptionsPost.body);
+            callAPI('/modifyTask', requestOptionsPost)
+              .then((result) => loadTasks(result))
+              .then(() => {
+                editPopup.style.visibility = 'hidden';
+                editPopup.style.opacity = '0';
+                editPopup.removeEventListener('click', clicked, false);
+              });
+          } else if (e.target.id === 'editCloseBtn') {
+            editPopup.style.visibility = 'hidden';
+            editPopup.style.opacity = '0';
+            editPopup.removeEventListener('click', clicked, false);
+          }
+        },
+        false
+      );
     });
   });
 };

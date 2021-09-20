@@ -87,12 +87,11 @@ router.post('/deleteTask', (req, res) => {
   const data = fs.readFileSync(JSON_PATH, 'utf-8');
   const users = JSON.parse(data);
   users[username].tasks.splice(req.body.id, 1);
-  console.log(typeof users);
+  console.log(req.body.id);
   fs.writeFile(JSON_PATH, JSON.stringify(users), (err) => {
     if (err) throw err;
     else res.send(JSON.stringify(users[username].tasks));
   });
-  res.send(JSON.stringify(users[username].tasks));
 });
 
 router.post('/modifyTask', (req, res) => {
