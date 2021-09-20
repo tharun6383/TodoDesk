@@ -87,11 +87,12 @@ router.post('/deleteTask', (req, res) => {
   const data = fs.readFileSync(JSON_PATH, 'utf-8');
   const users = JSON.parse(data);
   users[username].tasks.splice(req.body.id, 1);
-  // console.log(users[username].tasks);
+  console.log(typeof users);
   fs.writeFile(JSON_PATH, JSON.stringify(users), (err) => {
     if (err) throw err;
-    else res.send(users[username].tasks);
+    else res.send(JSON.stringify(users[username].tasks));
   });
+  res.send(JSON.stringify(users[username].tasks));
 });
 
 router.post('/modifyTask', (req, res) => {
@@ -101,6 +102,7 @@ router.post('/modifyTask', (req, res) => {
   users[username].tasks[req.body.id][0] = req.body.taskTitle;
   users[username].tasks[req.body.id][1] = req.body.startDate;
   users[username].tasks[req.body.id][2] = req.body.endDate;
+  console.log(users[username].tasks);
   fs.writeFile(JSON_PATH, JSON.stringify(users), (err) => {
     if (err) throw err;
     else res.send(users[username].tasks);

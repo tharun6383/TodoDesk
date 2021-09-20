@@ -4,17 +4,20 @@ const completedSection = document.getElementById('completedContent');
 const newTaskTitle = document.getElementById('newTaskTitle');
 const newTaskStartDate = document.getElementById('newTaskStartDate');
 const newTaskEndDate = document.getElementById('newTaskEndDate');
+const editTaskTitle = document.getElementById('editTaskTitle');
+const editTaskStartDate = document.getElementById('editTaskStartDate');
+const editTaskEndDate = document.getElementById('editTaskEndDate');
 const newTaskInsertBtn = document.getElementById('newTaskInsertBtn');
-
 const searchBarInput = document.getElementById('searchBar');
 const doneBtns = document.getElementsByClassName('doneBtn');
-const saveBtns = document.getElementsByClassName('saveBtn');
+const editBtns = document.getElementsByClassName('saveBtn');
 const deleteBtns = document.getElementsByClassName('deleteBtn');
 const sortAllBtn = document.getElementById('sortAllBtn');
 const sortNotStartedBtn = document.getElementById('sortNotStartedBtn');
 const sortInProgressBtn = document.getElementById('sortInProgressBtn');
 const sortCompletedBtn = document.getElementById('sortCompletedBtn');
 const deletePopup = document.getElementById('delete-popup');
+const editPopup = document.getElementById('edit-popup');
 
 import { clearSection, highlightCard, sortTask, callAPI } from './util.js';
 
@@ -28,7 +31,7 @@ sortAllBtn.addEventListener('click', () => {
   clearSection(notStartedSection, inProgressSection, completedSection);
   groupTasks(userData).then(() => {
     tickTask();
-    saveTask();
+    editTask();
     deleteTask();
   });
 });
@@ -38,7 +41,7 @@ sortNotStartedBtn.addEventListener('click', () => {
   clearSection(notStartedSection, inProgressSection, completedSection);
   groupTasks(userData).then(() => {
     tickTask();
-    saveTask();
+    editTask();
     deleteTask();
   });
 });
@@ -47,7 +50,7 @@ sortInProgressBtn.addEventListener('click', () => {
   clearSection(notStartedSection, inProgressSection, completedSection);
   groupTasks(userData).then(() => {
     tickTask();
-    saveTask();
+    editTask();
     deleteTask();
   });
 });
@@ -56,7 +59,7 @@ sortCompletedBtn.addEventListener('click', () => {
   clearSection(notStartedSection, inProgressSection, completedSection);
   groupTasks(userData).then(() => {
     tickTask();
-    saveTask();
+    editTask();
     deleteTask();
   });
 });
@@ -72,9 +75,10 @@ const insertCard = (section, taskid, taskData) => {
     placeholder="Title"
     maxlength="30"
     value="${taskTitle}"
+    readonly
   />
-  <input type="datetime-local" name="startDate" id="startDate" value="${startDate}"/>
-  <input type="datetime-local" name="endDate" id="endDate" value="${endDate}"/>
+  <input type="datetime-local" name="startDate" id="startDate" value="${startDate}" readonly/>
+  <input type="datetime-local" name="endDate" id="endDate" value="${endDate}" readonly/>
   <img class="doneBtn" src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" title="Mark as done" data-tid="${taskid}"/>
   <img class="saveBtn" src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" title="Save task" data-sid="${taskid}"/>
   <img class="deleteBtn" src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" title="Delete task" data-did="${taskid}"/>
@@ -93,7 +97,7 @@ searchBarInput.addEventListener('input', () => {
 
   groupTasks(resultData).then(() => {
     tickTask();
-    saveTask();
+    editTask();
     deleteTask();
     highlightCard(notStartedSection, inProgressSection);
   });
@@ -121,7 +125,7 @@ const loadTasks = async (data) => {
 
   groupTasks(userData).then(() => {
     tickTask();
-    saveTask();
+    editTask();
     deleteTask();
     highlightCard(notStartedSection, inProgressSection);
     intervalFunction = setInterval(() => {
@@ -186,21 +190,37 @@ const deleteTask = () => {
 };
 
 /**save modified task */
-const saveTask = () => {
-  Array.from(saveBtns).forEach((btn) => {
+const editTask = () => {
+  Array.from(editBtns).forEach((btn) => {
     btn.addEventListener('click', () => {
+      editPopup.style.visibility = 'visible';
+      editPopup.style.opacity = '1';
       const id = btn.getAttribute('data-sid');
       const card = document.querySelector(`[data-id="${id}"]`).children;
-      const title = card.taskTitle.value;
-      const sDate = card.startDate.value;
-      const eDate = card.endDate.value;
-      const requestOptionsPost = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: `{"id":"${id}","taskTitle":"${title}","startDate":"${sDate}","endDate":"${eDate}"}`,
-        redirect: 'follow',
-      };
-      callAPI('/modifyTask', requestOptionsPost).then((result) => loadTasks(result));
+      [editTaskTitle.value, editTaskStartDate.value, editTaskEndDate.value] = [
+        card.taskTitle.value,
+        card.startDate.value,
+        card.endDate.value,
+      ];
+      editPopup.addEventListener('click', (e) => {
+        if (e.target.id === 'editSaveBtn') {
+          const requestOptionsPost = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: `{"id":"${btn.getAttribute('data-sid')}","taskTitle":"${
+              editTaskTitle.value
+            }","startDate":"${editTaskStartDate.value}","endDate":"${editTaskEndDate.value}"}`,
+            redirect: 'follow',
+          };
+          console.log(requestOptionsPost.body);
+          callAPI('/modifyTask', requestOptionsPost).then((result) => loadTasks(result));
+          editPopup.style.visibility = 'hidden';
+          editPopup.style.opacity = '0';
+        } else if (e.target.id === 'editCloseBtn') {
+          editPopup.style.visibility = 'hidden';
+          editPopup.style.opacity = '0';
+        }
+      });
     });
   });
 };
