@@ -12,4 +12,4 @@ A Task planning application where you can manage your everyday tasks!
 
 ## Application Screenshot
 
-![Application Screenshot](images/screenCapture.png)
+![Application Screenshot](public/images/screenCapture.png)
