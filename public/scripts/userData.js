@@ -19,7 +19,7 @@ const sortCompletedBtn = document.getElementById('sortCompletedBtn');
 const deletePopup = document.getElementById('delete-popup');
 const editPopup = document.getElementById('edit-popup');
 
-import { clearSection, highlightCard, sortTask, callAPI } from './util.js';
+import { clearSection, highlightCard, sortTask, callAPI, enableDisablePopup } from './util.js';
 
 let userData = [];
 let intervalFunction = '';
@@ -67,7 +67,7 @@ sortCompletedBtn.addEventListener('click', () => {
 /**Insert tasks into DOM */
 const insertCard = (section, taskid, taskData) => {
   const [taskTitle, startDate, endDate, status] = taskData;
-  section.innerHTML += `<div class="taskCard" data-id=${taskid}>
+  section.innerHTML += `<div class="taskCard" data-id=${taskid} draggable="true" ondragstart="drag(event)">
   <input
     type="text"
     name="taskTitle"
@@ -169,8 +169,7 @@ const tickTask = () => {
 const deleteTask = () => {
   Array.from(deleteBtns).forEach((btn) => {
     btn.addEventListener('click', () => {
-      deletePopup.style.visibility = 'visible';
-      deletePopup.style.opacity = '1';
+      enableDisablePopup(deletePopup, 'enable');
       const id = btn.getAttribute('data-did');
       deletePopup.addEventListener(
         'click',
@@ -189,8 +188,7 @@ const deleteTask = () => {
                 deletePopup.removeEventListener('click', clicked, false);
               });
           }
-          deletePopup.style.visibility = 'hidden';
-          deletePopup.style.opacity = '0';
+          enableDisablePopup(deletePopup, 'disable');
         },
         false
       );
@@ -202,8 +200,7 @@ const deleteTask = () => {
 const editTask = () => {
   Array.from(editBtns).forEach((btn) => {
     btn.addEventListener('click', () => {
-      editPopup.style.visibility = 'visible';
-      editPopup.style.opacity = '1';
+      enableDisablePopup(editPopup, 'enable');
       const id = btn.getAttribute('data-sid');
       const card = document.querySelector(`[data-id="${id}"]`).children;
       [editTaskTitle.value, editTaskStartDate.value, editTaskEndDate.value] = [
@@ -225,19 +222,50 @@ const editTask = () => {
             callAPI('/modifyTask', requestOptionsPost)
               .then((result) => loadTasks(result))
               .then(() => {
-                editPopup.style.visibility = 'hidden';
-                editPopup.style.opacity = '0';
+                enableDisablePopup(editPopup, 'disable');
                 editPopup.removeEventListener('click', clicked, false);
               });
           } else if (e.target.id === 'editCloseBtn') {
-            editPopup.style.visibility = 'hidden';
-            editPopup.style.opacity = '0';
+            enableDisablePopup(editPopup, 'disable');
             editPopup.removeEventListener('click', clicked, false);
           }
         },
         false
       );
     });
+  });
+};
+
+notStartedSection.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const id = e.dataTransfer.getData('text');
+  dragDropTask(id, 'notStarted');
+});
+inProgressSection.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const id = e.dataTransfer.getData('text');
+  dragDropTask(id, 'inProgress');
+});
+completedSection.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const id = e.dataTransfer.getData('text');
+  dragDropTask(id, 'completed');
+});
+
+const dragDropTask = (id, section) => {
+  userData[id][3] = section;
+  clearSection(notStartedSection, inProgressSection, completedSection);
+  const requestOptionsPost = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: `{"id":"${id}","section":"${section}"}`,
+    redirect: 'follow',
+  };
+  fetch('/dragDropTask', requestOptionsPost).catch((err) => console.log(err));
+  groupTasks(userData).then(() => {
+    tickTask();
+    editTask();
+    deleteTask();
   });
 };
 

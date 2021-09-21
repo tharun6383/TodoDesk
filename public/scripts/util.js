@@ -48,4 +48,14 @@ export const sortTask = (data, index, section) => {
   return Array.prototype.concat(notStarted, inProgress, completed);
 };
 
+export const enableDisablePopup = (obj, msg) => {
+  if (msg === 'enable') {
+    obj.style.visibility = 'visible';
+    obj.style.opacity = '1';
+  } else {
+    obj.style.visibility = 'hidden';
+    obj.style.opacity = '0';
+  }
+};
+
 callAPI('/username', requestOptionsGet).then((res) => (usernameBox.innerHTML = res.username));

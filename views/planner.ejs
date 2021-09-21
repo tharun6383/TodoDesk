@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="./styles/plannerStyle.css" />
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
     <title>Planner</title>
+    <script>
+      function allowDrop(ev) {
+        ev.preventDefault();
+      }
+      function drag(ev) {
+        ev.dataTransfer.setData('text', ev.target.getAttribute('data-id'));
+        console.log(ev.target.getAttribute('data-id'));
+      }
+    </script>
   </head>
   <body>
     <main id="parent">
@@ -50,7 +59,7 @@
               title="Sort notStarted"
             />
           </div>
-          <div id="notStartedContent">
+          <div id="notStartedContent" ondragover="allowDrop(event)">
             <div class="taskCard">
               <input
                 type="text"
@@ -98,7 +107,7 @@
               title="Sort inProgress"
             />
           </div>
-          <div id="inProgressContent">
+          <div id="inProgressContent" ondragover="allowDrop(event)">
             <div class="taskCard">
               <input
                 type="text"
@@ -146,7 +155,7 @@
               title="sort completed"
             />
           </div>
-          <div id="completedContent"></div>
+          <div id="completedContent" ondragover="allowDrop(event)"></div>
         </div>
       </section>
       <!-- insert task pop up -->

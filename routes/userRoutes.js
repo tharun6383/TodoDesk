@@ -108,6 +108,16 @@ router.post('/modifyTask', (req, res) => {
   });
 });
 
+router.post('/dragDropTask', (req, res) => {
+  const username = req.session.username;
+  const data = fs.readFileSync(JSON_PATH, 'utf-8');
+  const users = JSON.parse(data);
+  users[username].tasks[req.body.id][3] = req.body.section;
+  fs.writeFile(JSON_PATH, JSON.stringify(users), (err) => {
+    if (err) throw err;
+    else res.end();
+  });
+});
 router.get('/username', (req, res) => {
   res.send(JSON.stringify({ username: `${req.session.username}` }));
 });
