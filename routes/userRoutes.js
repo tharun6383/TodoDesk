@@ -36,7 +36,7 @@ router.post('/userin', (req, res) => {
       req.flash('error', 'Username already taken');
     } else {
       userValidation.addUser(req.body.uname, req.body.pwd);
-      req.flash('error', 'User Added');
+      req.flash('error', 'Account created! Kindly login');
     }
     res.render('signin.ejs');
   } else {
