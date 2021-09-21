@@ -188,6 +188,7 @@ const deleteTask = () => {
                 deletePopup.removeEventListener('click', clicked, false);
               });
           }
+          deletePopup.removeEventListener('click', clicked, false);
           enableDisablePopup(deletePopup, 'disable');
         },
         false
