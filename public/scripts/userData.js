@@ -23,6 +23,12 @@ import { clearSection, highlightCard, sortTask, callAPI, enableDisablePopup } fr
 
 let userData = [];
 let intervalFunction = '';
+const requestOptionsPost = {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: '',
+  redirect: 'follow',
+};
 
 /**to load and display sorted data */
 const loadTasksAfterSort = () => {
@@ -57,15 +63,7 @@ sortCompletedBtn.addEventListener('click', () => {
 const insertCard = (section, taskid, taskData) => {
   const [taskTitle, startDate, endDate, status] = taskData;
   section.innerHTML += `<div class="taskCard" data-id=${taskid} draggable="true" ondragstart="drag(event)">
-  <input
-    type="text"
-    name="taskTitle"
-    id="taskTitle"
-    placeholder="Title"
-    maxlength="30"
-    value="${taskTitle}"
-    readonly
-  />
+  <input type="text" name="taskTitle" id="taskTitle" placeholder="Title" maxlength="30" value="${taskTitle}" readonly />
   <input type="datetime-local" name="startDate" id="startDate" value="${startDate}" readonly/>
   <input type="datetime-local" name="endDate" id="endDate" value="${endDate}" readonly/>
   <img class="doneBtn" src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" title="Mark as done" data-tid="${taskid}"/>
@@ -106,13 +104,9 @@ const loadTasks = async (data) => {
 /**EventListner for creating new task button */
 newTaskInsertBtn.addEventListener('click', () => {
   if (newTaskTitle.value && newTaskStartDate.value && newTaskEndDate.value) {
-    const requestOptionsPost = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: `["${newTaskTitle.value}","${newTaskStartDate.value}","${newTaskEndDate.value}","notStarted"]`,
-      redirect: 'follow',
-    };
-    callAPI('/newTask', requestOptionsPost).then((result) => loadTasks(result));
+    const requestOptions = { ...requestOptionsPost };
+    requestOptions.body = `["${newTaskTitle.value}","${newTaskStartDate.value}","${newTaskEndDate.value}","notStarted"]`;
+    callAPI('/newTask', requestOptions).then((result) => loadTasks(result));
     [newTaskTitle.value, newTaskStartDate.value, newTaskEndDate.value] = ['', '', ''];
   } else {
     window.alert('Insufficient data');
@@ -139,13 +133,9 @@ searchBarInput.addEventListener('input', () => {
 const tickTask = () => {
   Array.from(doneBtns).forEach((btn) => {
     btn.addEventListener('click', () => {
-      const requestOptionsPost = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: `{"id":"${btn.getAttribute('data-tid')}"}`,
-        redirect: 'follow',
-      };
-      callAPI('/tickTask', requestOptionsPost).then((result) => loadTasks(result));
+      const requestOptions = { ...requestOptionsPost };
+      requestOptions.body = `{"id":"${btn.getAttribute('data-tid')}"}`;
+      callAPI('/tickTask', requestOptions).then((result) => loadTasks(result));
     });
   });
 };
@@ -160,14 +150,9 @@ const deleteTask = () => {
         'click',
         function clicked(e) {
           if (e.target.id === 'deleteYes') {
-            const requestOptionsPost = {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: `{"id":"${id}"}`,
-              redirect: 'follow',
-            };
-            // console.log(requestOptionsPost.body);
-            callAPI('/deleteTask', requestOptionsPost)
+            const requestOptions = { ...requestOptionsPost };
+            requestOptions.body = `{"id":"${id}"}`;
+            callAPI('/deleteTask', requestOptions)
               .then((result) => loadTasks(result))
               .then(() => {
                 deletePopup.removeEventListener('click', clicked, false);
@@ -198,14 +183,9 @@ const editTask = () => {
         'click',
         function clicked(e) {
           if (e.target.id === 'editSaveBtn') {
-            const requestOptionsPost = {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: `{"id":"${id}","taskTitle":"${editTaskTitle.value}","startDate":"${editTaskStartDate.value}","endDate":"${editTaskEndDate.value}"}`,
-              redirect: 'follow',
-            };
-            // console.log(requestOptionsPost.body);
-            callAPI('/modifyTask', requestOptionsPost)
+            const requestOptions = { ...requestOptionsPost };
+            requestOptions.body = `{"id":"${id}","taskTitle":"${editTaskTitle.value}","startDate":"${editTaskStartDate.value}","endDate":"${editTaskEndDate.value}"}`;
+            callAPI('/modifyTask', requestOptions)
               .then((result) => loadTasks(result))
               .then(() => {
                 enableDisablePopup(editPopup, 'disable');
@@ -238,16 +218,13 @@ completedSection.addEventListener('drop', (e) => {
   dragDropTask(id, 'completed');
 });
 
+/**function for handling Drag drop tasks */
 const dragDropTask = (id, section) => {
   userData[id][3] = section;
   clearSection(notStartedSection, inProgressSection, completedSection);
-  const requestOptionsPost = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: `{"id":"${id}","section":"${section}"}`,
-    redirect: 'follow',
-  };
-  fetch('/dragDropTask', requestOptionsPost).catch((err) => console.log(err));
+  const requestOptions = { ...requestOptionsPost };
+  requestOptions.body = `{"id":"${id}","section":"${section}"}`;
+  fetch('/dragDropTask', requestOptions).catch((err) => console.log(err));
   groupTasks(userData).then(() => {
     tickTask();
     editTask();
