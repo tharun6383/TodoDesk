@@ -4,10 +4,10 @@ const completedSection = document.getElementById('completedContent');
 const newTaskTitle = document.getElementById('newTaskTitle');
 const newTaskStartDate = document.getElementById('newTaskStartDate');
 const newTaskEndDate = document.getElementById('newTaskEndDate');
+const newTaskInsertBtn = document.getElementById('newTaskInsertBtn');
 const editTaskTitle = document.getElementById('editTaskTitle');
 const editTaskStartDate = document.getElementById('editTaskStartDate');
 const editTaskEndDate = document.getElementById('editTaskEndDate');
-const newTaskInsertBtn = document.getElementById('newTaskInsertBtn');
 const searchBarInput = document.getElementById('searchBar');
 const doneBtns = document.getElementsByClassName('doneBtn');
 const editBtns = document.getElementsByClassName('saveBtn');
@@ -24,44 +24,33 @@ import { clearSection, highlightCard, sortTask, callAPI, enableDisablePopup } fr
 let userData = [];
 let intervalFunction = '';
 
+/**to load and display sorted data */
+const loadTasksAfterSort = () => {
+  clearSection(notStartedSection, inProgressSection, completedSection);
+  groupTasks(userData).then(() => {
+    tickTask();
+    editTask();
+    deleteTask();
+  });
+};
 sortAllBtn.addEventListener('click', () => {
   userData = [...sortTask(userData, 1, 'notStarted')];
   userData = [...sortTask(userData, 2, 'inProgress')];
   userData = [...sortTask(userData, 1, 'completed')];
-  clearSection(notStartedSection, inProgressSection, completedSection);
-  groupTasks(userData).then(() => {
-    tickTask();
-    editTask();
-    deleteTask();
-  });
+  loadTasksAfterSort();
 });
 
 sortNotStartedBtn.addEventListener('click', () => {
   userData = [...sortTask(userData, 1, 'notStarted')];
-  clearSection(notStartedSection, inProgressSection, completedSection);
-  groupTasks(userData).then(() => {
-    tickTask();
-    editTask();
-    deleteTask();
-  });
+  loadTasksAfterSort();
 });
 sortInProgressBtn.addEventListener('click', () => {
   userData = [...sortTask(userData, 2, 'inProgress')];
-  clearSection(notStartedSection, inProgressSection, completedSection);
-  groupTasks(userData).then(() => {
-    tickTask();
-    editTask();
-    deleteTask();
-  });
+  loadTasksAfterSort();
 });
 sortCompletedBtn.addEventListener('click', () => {
   userData = [...sortTask(userData, 1, 'completed')];
-  clearSection(notStartedSection, inProgressSection, completedSection);
-  groupTasks(userData).then(() => {
-    tickTask();
-    editTask();
-    deleteTask();
-  });
+  loadTasksAfterSort();
 });
 
 /**Insert tasks into DOM */
@@ -85,24 +74,6 @@ const insertCard = (section, taskid, taskData) => {
 </div>`;
 };
 
-searchBarInput.addEventListener('input', () => {
-  const resultData = [];
-  // console.log(searchBarInput.value, userData);
-  for (const task of Object.values(userData)) {
-    if (task[0].search(searchBarInput.value) != -1) {
-      resultData.push(task);
-    }
-  }
-  clearSection(notStartedSection, inProgressSection, completedSection);
-
-  groupTasks(resultData).then(() => {
-    tickTask();
-    editTask();
-    deleteTask();
-    highlightCard(notStartedSection, inProgressSection);
-  });
-});
-
 /**group tasks based on its status */
 const groupTasks = async (data) => {
   return data.forEach((taskData) => {
@@ -115,14 +86,12 @@ const groupTasks = async (data) => {
 
 /**necessary function call for displaying tasks */
 const loadTasks = async (data) => {
-  // console.log(data);
   userData = [];
   for (const [key, value] of Object.entries(data)) {
     userData.push([...value, key]);
   }
   clearInterval(intervalFunction);
   clearSection(notStartedSection, inProgressSection, completedSection);
-
   groupTasks(userData).then(() => {
     tickTask();
     editTask();
@@ -148,6 +117,22 @@ newTaskInsertBtn.addEventListener('click', () => {
   } else {
     window.alert('Insufficient data');
   }
+});
+
+searchBarInput.addEventListener('input', () => {
+  const resultData = [];
+  for (const task of Object.values(userData)) {
+    if (task[0].search(searchBarInput.value) != -1) {
+      resultData.push(task);
+    }
+  }
+  clearSection(notStartedSection, inProgressSection, completedSection);
+  groupTasks(resultData).then(() => {
+    tickTask();
+    editTask();
+    deleteTask();
+    highlightCard(notStartedSection, inProgressSection);
+  });
 });
 
 /**to move tasks between buckets */
