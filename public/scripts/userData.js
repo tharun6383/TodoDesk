@@ -10,7 +10,7 @@ const editTaskStartDate = document.getElementById('editTaskStartDate');
 const editTaskEndDate = document.getElementById('editTaskEndDate');
 const searchBarInput = document.getElementById('searchBar');
 const doneBtns = document.getElementsByClassName('doneBtn');
-const editBtns = document.getElementsByClassName('saveBtn');
+const editBtns = document.getElementsByClassName('editBtn');
 const deleteBtns = document.getElementsByClassName('deleteBtn');
 const sortAllBtn = document.getElementById('sortAllBtn');
 const sortNotStartedBtn = document.getElementById('sortNotStartedBtn');
@@ -19,7 +19,13 @@ const sortCompletedBtn = document.getElementById('sortCompletedBtn');
 const deletePopup = document.getElementById('delete-popup');
 const editPopup = document.getElementById('edit-popup');
 
-import { clearSection, highlightCard, sortTask, callAPI, enableDisablePopup } from './util.js';
+import {
+  clearSection,
+  highlightCard,
+  sortTask,
+  callAPI,
+  enableDisablePopup,
+} from './util.js';
 
 let userData = [];
 let intervalFunction = '';
@@ -66,9 +72,9 @@ const insertCard = (section, taskid, taskData) => {
   <input type="text" name="taskTitle" id="taskTitle" placeholder="Title" maxlength="30" value="${taskTitle}" readonly />
   <input type="datetime-local" name="startDate" id="startDate" value="${startDate}" readonly/>
   <input type="datetime-local" name="endDate" id="endDate" value="${endDate}" readonly/>
-  <img class="doneBtn" src="./images/icons8-checkmark.svg" alt="Done" width="30px" heigth="30px" title="Mark as done" data-tid="${taskid}"/>
-  <img class="saveBtn" src="./images/saveIcon.svg" alt="Save" width="26px" heigth="26px" title="Save task" data-sid="${taskid}"/>
-  <img class="deleteBtn" src="./images/deleteIcon.svg" alt="Delete" width="28px" heigth="28px" title="Delete task" data-did="${taskid}"/>
+  <svg class="doneBtn" data-tid="${taskid}"><use xlink:href="#tickIconSVG" /></svg>
+  <svg class="editBtn" data-sid="${taskid}"><use xlink:href="#editIconSVG" /></svg>
+  <svg class="deleteBtn" data-did="${taskid}"><use xlink:href="#deleteIconSVG" /></svg>
 </div>`;
 };
 
@@ -76,8 +82,10 @@ const insertCard = (section, taskid, taskData) => {
 const groupTasks = async (data) => {
   return data.forEach((taskData) => {
     const [, , , status, taskid] = taskData;
-    if (status === 'notStarted') insertCard(notStartedSection, taskid, taskData);
-    else if (status === 'inProgress') insertCard(inProgressSection, taskid, taskData);
+    if (status === 'notStarted')
+      insertCard(notStartedSection, taskid, taskData);
+    else if (status === 'inProgress')
+      insertCard(inProgressSection, taskid, taskData);
     else insertCard(completedSection, taskid, taskData);
   });
 };
@@ -107,7 +115,11 @@ newTaskInsertBtn.addEventListener('click', () => {
     const requestOptions = { ...requestOptionsPost };
     requestOptions.body = `["${newTaskTitle.value}","${newTaskStartDate.value}","${newTaskEndDate.value}","notStarted"]`;
     callAPI('/newTask', requestOptions).then((result) => loadTasks(result));
-    [newTaskTitle.value, newTaskStartDate.value, newTaskEndDate.value] = ['', '', ''];
+    [newTaskTitle.value, newTaskStartDate.value, newTaskEndDate.value] = [
+      '',
+      '',
+      '',
+    ];
   } else {
     window.alert('Insufficient data');
   }

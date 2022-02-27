@@ -20,15 +20,50 @@ body {
   background-color: #e5e5e5;
   box-sizing: border-box;
 }
+/******************** icons *******************/
+.icons {
+  display: none;
+}
+.doneBtn,
+.deleteBtn,
+.editBtn {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.doneBtn {
+  fill: #4f4f4f;
+}
+.doneBtn:hover {
+  fill: #42bc83;
+}
+.deleteBtn,
+.editBtn {
+  stroke: #4f4f4f;
+  fill: none;
+}
+.editBtn:hover {
+  stroke: #008aca;
+}
+.deleteBtn:hover {
+  stroke: #e35664;
+}
+
 #titleBar {
   display: flex;
   font-weight: 500;
   justify-content: space-between;
   align-items: center;
-  background-color: #4f4f4f;
-  color: #ebebeb;
+  background-color: #ffffff;
+  color: #1d2939;
   padding: 0% 1%;
 }
+
+#mainTitle {
+  font-size: 24px;
+  margin-left: 8px;
+}
+
 #searchBar {
   font-size: small;
   background-color: #c2c2c2;
