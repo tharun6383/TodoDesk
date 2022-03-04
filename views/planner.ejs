@@ -76,18 +76,7 @@
     <main id="parent">
       <!-------------------------------------------- TITLE BAR -------------------------------------------->
       <div id="titleBar">
-        <div style="display: inherit; align-items: center">
-          <a href="#mySidenav" style="margin-top: 2px">
-            <img
-              id="menuBtn"
-              src="./images/menuIcon.svg"
-              alt="createTask"
-              width="25px"
-              height="25px"
-            />
-          </a>
-          <p id="mainTitle">TODO DESK</p>
-        </div>
+        <p id="mainTitle">TODO DESK</p>
 
         <input
           type="text"
@@ -96,26 +85,29 @@
           placeholder="Search tasks"
         />
 
-        <img
-          src="./images/sortIcon.svg"
-          id="sortAllBtn"
-          alt="sort-all"
-          title="Sort All"
-          style="cursor: pointer"
-        />
+        <div style="display: inherit; align-items: center">
+          <a href="#mySidenav" style="margin-top: 2px">
+            <img
+              id="profileBtn"
+              src="./images/profileIcon.svg"
+              width="35px"
+              height="35px"
+            />
+          </a>
+        </div>
       </div>
       <!-------------------------------------------- MAIN SECTION -------------------------------------------->
       <section id="mainSection">
         <!------------------------------ NOT STARTED FLEX COLUMN ------------------------------>
         <div id="notStarted">
           <div id="notStartedTitle">
-            Not Started
+            TO DO
             <img
               src="./images/sortIcon.svg"
               id="sortNotStartedBtn"
               alt="sort-notStarted"
               style="cursor: pointer"
-              title="Sort notStarted"
+              title="Sort ToDo"
             />
           </div>
           <div id="notStartedContent" ondragover="allowDrop(event)">
@@ -138,7 +130,6 @@
                 title="Mark as done"
               /> -->
               <svg class="doneBtn"><use xlink:href="#tickIconSVG" /></svg>
-
               <svg class="editBtn"><use xlink:href="#editIconSVG" /></svg>
               <svg class="deleteBtn"><use xlink:href="#deleteIconSVG" /></svg>
             </div>
@@ -147,13 +138,13 @@
         <!------------------------------ IN PROGRESS FLEX COLUMN ------------------------------>
         <div id="inProgress">
           <div id="inProgressTitle">
-            In Progress
+            DOING
             <img
               src="./images/sortIcon.svg"
               id="sortInProgressBtn"
               alt="sort-inProgress"
               style="cursor: pointer"
-              title="Sort inProgress"
+              title="Sort Doing"
             />
           </div>
           <div id="inProgressContent" ondragover="allowDrop(event)"></div>
@@ -161,20 +152,20 @@
         <!------------------------------ COMPLETED FLEX COLUMN ------------------------------>
         <div id="completed">
           <div id="completedTitle">
-            Completed
+            DONE
             <img
               src="./images/sortIcon.svg"
               id="sortCompletedBtn"
               alt="sort-completed"
               style="cursor: pointer"
-              title="sort completed"
+              title="sort Done"
             />
           </div>
           <div id="completedContent" ondragover="allowDrop(event)"></div>
         </div>
       </section>
       <!-- insert task pop up -->
-      <div id="open-popup" class="popUp">
+      <div id="newTask-popup" class="popUp">
         <div class="popup-card">
           <h2>New Task</h2>
           <a class="close" href="#" title="Close" id="newTaskCloseBtn"
@@ -244,7 +235,7 @@
 
       <!-- footer -->
       <footer>
-        <a href="#open-popup">
+        <a href="#newTask-popup">
           <img
             id="createTaskBtn"
             src="./images/plusIcon.svg"
@@ -256,9 +247,9 @@
 
       <!-- side navigation bar -->
       <div id="mySidenav" class="sidenav">
-        <a href="#" class="closebtn">&times;</a>
-        <p>Welcome!</p>
+        <a href="#" id="navCloseBtn">&times;</a>
         <p id="username">Username</p>
+        <p id="sortAllBtn" style="cursor: pointer">Sort all tasks</p>
         <button id="logout" onclick="location.href='/logout'">Logout</button>
       </div>
     </main>

@@ -37,13 +37,16 @@ body {
 .doneBtn:hover {
   fill: #42bc83;
 }
-.deleteBtn,
-.editBtn {
+.editBtn,
+.deleteBtn {
   stroke: #4f4f4f;
   fill: none;
 }
 .editBtn:hover {
   stroke: #008aca;
+}
+.deleteBtn {
+  margin-left: auto;
 }
 .deleteBtn:hover {
   stroke: #e35664;
@@ -109,6 +112,8 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 3% 5%;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 #notStartedTitle {
@@ -182,6 +187,7 @@ body {
   position: fixed;
   bottom: 5%;
   right: 3%;
+  transition-duration: 0.3s;
 }
 #createTaskBtn:hover {
   transform: scale(1.2);
@@ -294,12 +300,12 @@ body {
 .sidenav {
   height: 100%;
   min-width: 200px;
-  width: 25%;
+  width: 20%;
   position: fixed;
   z-index: 1;
   top: 0;
-  left: 0;
-  background-color: #111;
+  right: 0;
+  background-color: rgb(255, 255, 255);
   overflow-x: hidden;
   transition: 300ms;
   padding-top: 60px;
@@ -318,26 +324,24 @@ body {
   padding: 0% 0% 3% 10%;
   text-decoration: none;
   font-size: 25px;
-  color: #b8b8b8;
+  color: #667085;
   display: block;
   transition: 0.3s;
   margin: 0%;
+  font-size: medium;
 }
 
-.sidenav .closebtn {
+#navCloseBtn {
   position: absolute;
   top: 0;
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
 }
-
-.sidenav .closebtn:hover {
-  color: #008aca;
+#navCloseBtn:hover {
+  color: #e7394a;
 }
-
 #logout {
-  font-size: medium;
   cursor: pointer;
   margin-top: auto;
   margin-bottom: 20px;
@@ -346,5 +350,9 @@ body {
   transition: 300ms;
 }
 #logout:hover {
-  background-color: rgba(255, 6, 6, 0.932);
+  background-color: #e7394a;
+}
+#username {
+  font-size: 35px;
+  color: #1d2939;
 }
