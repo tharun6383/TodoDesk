@@ -18,6 +18,8 @@ const sortInProgressBtn = document.getElementById('sortInProgressBtn');
 const sortCompletedBtn = document.getElementById('sortCompletedBtn');
 const deletePopup = document.getElementById('delete-popup');
 const editPopup = document.getElementById('edit-popup');
+const profileBtn = document.getElementById('profileBtn');
+const sidenavCloseBtn = document.getElementById('sidenavCloseBtn');
 
 import {
   clearSection,
@@ -249,3 +251,13 @@ const requestOptionsGet = {
   redirect: 'follow',
 };
 callAPI('/userTaskData', requestOptionsGet).then((result) => loadTasks(result));
+
+profileBtn.addEventListener('click', () => {
+  document.getElementById('mySidenav').style.width = '250px';
+  document.getElementById('mainSection').style.marginLeft = '250px';
+});
+
+sidenavCloseBtn.addEventListener('click', () => {
+  document.getElementById('mySidenav').style.width = '0';
+  document.getElementById('mainSection').style.marginLeft = '0';
+});

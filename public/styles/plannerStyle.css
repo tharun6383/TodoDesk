@@ -96,7 +96,7 @@ body {
   flex-wrap: wrap;
   flex-direction: column;
   flex-basis: 100%;
-  padding: 3% 0% 3% 3%;
+  padding: 3% 0% 0% 3%;
 }
 
 #completed {
@@ -132,8 +132,7 @@ body {
   flex-direction: column;
   padding: 3% 2%;
   overflow: auto;
-  max-height: 73vh;
-  height: 85vh;
+  height: 71vh;
   background-color: #ffffff;
 }
 .taskCard {
@@ -297,62 +296,80 @@ body {
 }
 
 /**************** side navigation bar **********************/
+
 .sidenav {
-  height: 100%;
-  min-width: 200px;
-  width: 20%;
+  height: 89%;
+  width: 0;
   position: fixed;
   z-index: 1;
-  top: 0;
-  right: 0;
-  background-color: rgb(255, 255, 255);
+  left: 0;
   overflow-x: hidden;
-  transition: 300ms;
-  padding-top: 60px;
-  visibility: hidden;
-  opacity: 0;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0px 8px 16px -5px rgba(0, 0, 0, 0.75);
-}
-#mySidenav:target {
-  visibility: visible;
-  opacity: 1;
-}
-.sidenav a,
-.sidenav p {
-  padding: 0% 0% 3% 10%;
-  text-decoration: none;
-  font-size: 25px;
-  color: #667085;
-  display: block;
-  transition: 0.3s;
-  margin: 0%;
-  font-size: medium;
+  transition: 0.5s;
+  background-color: white;
+  font-size: 20px;
 }
 
-#navCloseBtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
+.sidenav div {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
 }
-#navCloseBtn:hover {
+
+.sidenav div * {
+  text-decoration: none;
+  color: #818181;
+  transition: 0.3s;
+  margin: 0px 0px 0px 25px;
+  white-space: nowrap;
+}
+
+#mainSection {
+  transition: margin-left 0.5s;
+}
+
+#sidenavCloseBtn {
+  float: right;
+  font-size: 36px;
+  padding: 0% 5% 0% 0%;
+  margin: 0%;
+}
+
+#sidenavCloseBtn:hover {
   color: #e7394a;
 }
-#logout {
-  cursor: pointer;
-  margin-top: auto;
-  margin-bottom: 20px;
-  padding: 3%;
-  background-color: rgba(211, 210, 210, 0.726);
-  transition: 300ms;
-}
-#logout:hover {
-  background-color: #e7394a;
+
+#usernameCont {
+  margin: 50px 0px 30px 0px;
 }
 #username {
-  font-size: 35px;
   color: #1d2939;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+#logout {
+  position: absolute;
+  bottom: 5%;
+  cursor: pointer;
+  padding: 5%;
+  background-color: rgba(211, 210, 210, 0.726);
+  transition: 0.3s;
+  width: 100%;
+  margin: 0%;
+}
+
+#logout:hover {
+  color: white;
+  background-color: #e7394a;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav a,
+  .sidenav p {
+    font-size: 18px;
+  }
 }
