@@ -78,7 +78,9 @@ body {
   background-color: gray;
   flex-grow: 1;
 }
-
+#profileBtn {
+  cursor: pointer;
+}
 /******************** mainSection ********************/
 #mainSection {
   display: flex;
@@ -149,14 +151,13 @@ body {
   border-left: 8px solid transparent;
   transition: border 0.6s linear;
 }
-.taskCard img {
-  cursor: pointer;
-}
+
 #taskTitle {
   width: 100%;
   margin-bottom: 5%;
   font-weight: 700;
   font-size: 20px;
+  cursor: default;
 }
 #startDate,
 #endDate {
@@ -333,6 +334,7 @@ body {
   font-size: 36px;
   padding: 0% 5% 0% 0%;
   margin: 0%;
+  cursor: pointer;
 }
 
 #sidenavCloseBtn:hover {

@@ -58,4 +58,6 @@ export const enableDisablePopup = (obj, msg) => {
   }
 };
 
-callAPI('/username', requestOptionsGet).then((res) => (usernameBox.innerHTML = res.username));
+callAPI('/username', requestOptionsGet).then(
+  (res) => (usernameBox.innerHTML = res.username)
+);

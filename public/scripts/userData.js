@@ -20,6 +20,8 @@ const deletePopup = document.getElementById('delete-popup');
 const editPopup = document.getElementById('edit-popup');
 const profileBtn = document.getElementById('profileBtn');
 const sidenavCloseBtn = document.getElementById('sidenavCloseBtn');
+let mySidenav = document.getElementById('mySidenav');
+let mainSection = document.getElementById('mainSection');
 
 import {
   clearSection,
@@ -130,7 +132,9 @@ newTaskInsertBtn.addEventListener('click', () => {
 searchBarInput.addEventListener('input', () => {
   const resultData = [];
   for (const task of Object.values(userData)) {
-    if (task[0].search(searchBarInput.value) != -1) {
+    if (
+      task[0].toLowerCase().search(searchBarInput.value.toLowerCase()) != -1
+    ) {
       resultData.push(task);
     }
   }
@@ -253,11 +257,10 @@ const requestOptionsGet = {
 callAPI('/userTaskData', requestOptionsGet).then((result) => loadTasks(result));
 
 profileBtn.addEventListener('click', () => {
-  document.getElementById('mySidenav').style.width = '250px';
-  document.getElementById('mainSection').style.marginLeft = '250px';
+  let width = mySidenav.style.width === '250px' ? '0px' : '250px';
+  mainSection.style.marginLeft = mySidenav.style.width = width;
 });
 
 sidenavCloseBtn.addEventListener('click', () => {
-  document.getElementById('mySidenav').style.width = '0';
-  document.getElementById('mainSection').style.marginLeft = '0';
+  mainSection.style.marginLeft = mySidenav.style.width = '0px';
 });
