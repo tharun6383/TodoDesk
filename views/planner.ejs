@@ -161,20 +161,29 @@
           </div>
           <div id="completedContent" ondragover="allowDrop(event)"></div>
         </div>
+
         <!-- side navigation bar -->
         <div id="mySidenav" class="sidenav">
           <p id="sidenavCloseBtn">&times;</p>
+          <button id="sidenavArrowBtn">&gt;</button>
           <div id="usernameCont">
             <img src="./images/profileIcon.svg" width="32px" height="32px" />
             <p id="username">Username</p>
           </div>
-          <div>
+          <div class="sideNavbtnsCont">
             <p>&lt;&gt;</p>
-            <p id="sortAllBtn" style="cursor: pointer">Sort all tasks</p>
+            <p id="sortAllBtn">Sort all tasks</p>
           </div>
-          <button id="logout" onclick="location.href='/logout'">Logout</button>
+          <button
+            class="sideNavbtnsCont"
+            id="logout"
+            onclick="location.href='/logout'"
+          >
+            Logout
+          </button>
         </div>
       </section>
+
       <!-- insert task pop up -->
       <div id="newTask-popup" class="popUp">
         <div class="popup-card">
