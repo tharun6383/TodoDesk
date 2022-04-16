@@ -85,7 +85,13 @@
           placeholder="Search tasks"
         />
 
-        <div>
+        <div id="titlebar-rightcont">
+          <img
+            id="darkThemeBtn"
+            src="./images/darkTheme.svg"
+            width="20px"
+            height="20px"
+          />
           <img
             id="profileBtn"
             src="./images/profileIcon.svg"
@@ -109,7 +115,7 @@
             />
           </div>
           <div id="notStartedContent" ondragover="allowDrop(event)">
-            <div class="taskCard">
+            <!-- <div class="taskCard">
               <input
                 type="text"
                 name="taskTitle"
@@ -119,18 +125,10 @@
               />
               <input type="datetime-local" name="startDate" id="startDate" />
               <input type="datetime-local" name="endDate" id="endDate" />
-              <!-- <img
-                class="doneBtn"
-                src="./images/icons8-checkmark.svg"
-                alt="Done"
-                width="30px"
-                heigth="30px"
-                title="Mark as done"
-              /> -->
               <svg class="doneBtn"><use xlink:href="#tickIconSVG" /></svg>
               <svg class="editBtn"><use xlink:href="#editIconSVG" /></svg>
               <svg class="deleteBtn"><use xlink:href="#deleteIconSVG" /></svg>
-            </div>
+            </div> -->
           </div>
         </div>
         <!------------------------------ IN PROGRESS FLEX COLUMN ------------------------------>
@@ -164,7 +162,6 @@
 
         <!-- side navigation bar -->
         <div id="mySidenav" class="sidenav">
-          <p id="sidenavCloseBtn">&times;</p>
           <button id="sidenavArrowBtn">&gt;</button>
           <div id="usernameCont">
             <img src="./images/profileIcon.svg" width="32px" height="32px" />

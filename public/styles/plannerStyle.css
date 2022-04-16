@@ -1,4 +1,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  --white: #ffffff;
+  --green: #42bc83;
+  --orange: #fdb03c;
+  --red: #e35664;
+  --blue: #008aca;
+  --searchbar-bg: #c2c2c2;
+
+  --dark-grey2: #333333;
+
+  --blue1: #006cff;
+
+  --page-bg: #e5e5e5;
+
+  --card-bg: #fcfcfd;
+  --card-title-text: #1d2939;
+  --card-date-text: #98a2b3;
+  --card-btns-bg: #4f4f4f;
+
+  --popup-bg: #ffffff;
+
+  --titlebar-bg: #ffffff;
+  --titlebar-text: #1d2939;
+
+  --content-tabs-bg: #ffffff;
+  --content-tabs-title: #ffffff;
+
+  --sidenav-bg: #ffffff;
+  --sidenav-arrowbtn-bg: #ffffff;
+  --sidenav-text: #818181;
+  --username-text: #1d2939;
+  --sidenav-logout-text: #ffffff;
+}
+
+[data-theme='dark'] {
+  --page-bg: #11252e;
+  --card-bg: #30444e;
+  --card-btns-bg: #bbc2c6;
+  --card-title-text: #f6f8f9;
+  --card-date-text: #f6f8f9b3;
+
+  --sidenav-bg: #22343c;
+  --sidenav-arrowbtn-bg: #30444e;
+  --sidenav-text: #ffffffcc;
+  --username-text: #f6f8f9;
+
+  --titlebar-bg: #22343c;
+  --titlebar-text: #f6f8f9cc;
+
+  --content-tabs-bg: #22343c;
+  --content-tabs-title: #ffffff;
+}
+
 * {
   font-family: 'Karla', sans-serif;
   box-sizing: border-box;
@@ -17,7 +71,7 @@ body {
   font-weight: 300;
   margin: 0;
   height: 100vh;
-  background-color: #e5e5e5;
+  background-color: var(--page-bg);
   box-sizing: border-box;
 }
 /******************** icons *******************/
@@ -32,24 +86,24 @@ body {
   cursor: pointer;
 }
 .doneBtn {
-  fill: #4f4f4f;
+  fill: var(--card-btns-bg);
 }
 .doneBtn:hover {
-  fill: #42bc83;
+  fill: var(--green);
 }
 .editBtn,
 .deleteBtn {
-  stroke: #4f4f4f;
+  stroke: var(--card-btns-bg);
   fill: none;
 }
 .editBtn:hover {
-  stroke: #008aca;
+  stroke: var(--blue);
 }
 .deleteBtn {
   margin-left: auto;
 }
 .deleteBtn:hover {
-  stroke: #e35664;
+  stroke: var(--red);
 }
 
 #titleBar {
@@ -57,8 +111,8 @@ body {
   font-weight: 500;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
-  color: #1d2939;
+  background-color: var(--titlebar-bg);
+  color: var(--titlebar-text);
   padding: 0% 1%;
 }
 
@@ -69,16 +123,21 @@ body {
 
 #searchBar {
   font-size: small;
-  background-color: #c2c2c2;
+  background-color: var(--searchbar-bg);
   border-radius: 20px;
   padding: 1% 2%;
   width: 50%;
 }
-#title {
-  background-color: gray;
-  flex-grow: 1;
+
+#titlebar-rightcont {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  column-gap: 25px;
 }
-#profileBtn {
+
+#profileBtn,
+#darkThemeBtn {
   cursor: pointer;
 }
 /******************** mainSection ********************/
@@ -108,7 +167,7 @@ body {
 #notStartedTitle,
 #inProgressTitle,
 #completedTitle {
-  color: white;
+  color: var(--content-tabs-title);
   position: sticky;
   top: 0%;
   display: flex;
@@ -119,13 +178,13 @@ body {
 }
 
 #notStartedTitle {
-  background-color: #e35664;
+  background-color: var(--red);
 }
 #inProgressTitle {
-  background-color: #fdb03c;
+  background-color: var(--orange);
 }
 #completedTitle {
-  background-color: #42bc83;
+  background-color: var(--green);
 }
 #notStartedContent,
 #inProgressContent,
@@ -135,21 +194,32 @@ body {
   padding: 3% 2%;
   overflow: auto;
   height: 71vh;
-  background-color: #ffffff;
+  background-color: var(--content-tabs-bg);
 }
 .taskCard {
   display: flex;
   flex-wrap: wrap;
-  background-color: #fcfcfd;
-
+  background-color: var(--card-bg);
   box-shadow: 0px 0.5px 2px rgba(16, 24, 40, 0.3);
   border-radius: 8px;
-
   padding: 5% 6%;
   column-gap: 5%;
   margin-bottom: 8%;
   border-left: 8px solid transparent;
   transition: border 0.6s linear;
+}
+
+.taskCard.is-loading * {
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  animation: 1.5s shine linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
 }
 
 #taskTitle {
@@ -158,6 +228,7 @@ body {
   font-weight: 700;
   font-size: 20px;
   cursor: default;
+  color: var(--card-title-text);
 }
 #startDate,
 #endDate {
@@ -165,7 +236,7 @@ body {
   margin-bottom: 5%;
   font-weight: 700;
   font-size: 14px;
-  color: #98a2b3;
+  color: var(--card-date-text);
 }
 
 @media only screen and (max-width: 900px) {
@@ -219,7 +290,7 @@ body {
 .popup-card {
   margin: 15% auto;
   padding: 30px 30px 55px 30px;
-  background: #fff;
+  background: var(--popup-bg);
   border-radius: 5px;
   width: 30%;
   position: relative;
@@ -228,7 +299,7 @@ body {
 
 .popup-card h2 {
   margin-top: 0;
-  color: #333;
+  color: var(--dark-grey2);
   font-family: Tahoma, Arial, sans-serif;
 }
 .popup-card .close {
@@ -238,10 +309,10 @@ body {
   font-size: 30px;
   font-weight: bold;
   text-decoration: none;
-  color: #333;
+  color: var(--dark-grey2);
 }
 .popup-card .close:hover {
-  color: #008aca;
+  color: var(--red);
 }
 .popup-card .content {
   display: flex;
@@ -266,9 +337,9 @@ body {
   position: absolute;
   bottom: 20px;
   right: 30px;
-  background-color: #333333;
+  background-color: var(--dark-grey2);
   border: none;
-  color: white;
+  color: #ffffff;
   text-align: center;
   text-decoration: none;
   border-radius: 20px;
@@ -305,7 +376,7 @@ body {
   z-index: 1;
   left: 0;
   transition: 0.5s;
-  background-color: white;
+  background-color: var(--sidenav-bg);
   font-size: 20px;
 }
 
@@ -319,7 +390,7 @@ body {
 
 .sidenav div * {
   text-decoration: none;
-  color: #818181;
+  color: var(--sidenav-text);
   transition: 0.3s;
   margin: 0px 0px 0px 25px;
   white-space: nowrap;
@@ -333,27 +404,15 @@ body {
   padding: 5%;
 }
 
-#sidenavCloseBtn {
-  float: right;
-  font-size: 36px;
-  padding: 0% 5% 0% 0%;
-  margin: 0%;
-  cursor: pointer;
-}
-
-#sidenavCloseBtn:hover {
-  color: #e7394a;
-}
-
 #sidenavArrowBtn {
   font-size: 18px;
   cursor: pointer;
   position: absolute;
   right: 0%;
   top: 15%;
-  color: #006cff;
+  color: var(--blue1);
   transform: translateX(55%) rotate(0deg);
-  background: white;
+  background: var(--sidenav-arrowbtn-bg);
   border-radius: 50%;
   height: 26px;
   width: 26px;
@@ -364,7 +423,7 @@ body {
   margin: 50px 0px 30px 0px;
 }
 #username {
-  color: #1d2939;
+  color: var(--username-text);
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 10px;
@@ -375,7 +434,7 @@ body {
 #logout {
   position: absolute;
   bottom: 5%;
-  background-color: rgba(211, 210, 210, 0.726);
+  background-color: rgba(211, 210, 210);
   transition: 0.3s;
   width: 100%;
   margin: 0%;
@@ -383,7 +442,7 @@ body {
 }
 
 #logout:hover {
-  color: white;
+  color: var(--sidenav-logout-text);
   background-color: #e7394a;
 }
 
