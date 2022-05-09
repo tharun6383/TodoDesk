@@ -46,7 +46,7 @@
   --sidenav-text: #ffffffcc;
   --username-text: #f6f8f9;
 
-  --titlebar-bg: #22343c;
+  --titlebar-bg: #22343c80;
   --titlebar-text: #f6f8f9cc;
 
   --content-tabs-bg: #22343c;
@@ -107,6 +107,7 @@ body {
 }
 
 #titleBar {
+  position: relative;
   display: flex;
   font-weight: 500;
   justify-content: space-between;
@@ -114,6 +115,8 @@ body {
   background-color: var(--titlebar-bg);
   color: var(--titlebar-text);
   padding: 0% 1%;
+  box-shadow: 0px 2px 26px rgba(0, 0, 0, 0.05);
+  z-index: 2;
 }
 
 #mainTitle {
@@ -258,7 +261,7 @@ body {
   position: fixed;
   bottom: 5%;
   right: 3%;
-  transition-duration: 0.3s;
+  transition-duration: transform 0.3s;
 }
 #createTaskBtn:hover {
   transform: scale(1.2);
@@ -370,12 +373,14 @@ body {
 /**************** side navigation bar **********************/
 
 .sidenav {
-  height: 89%;
+  /* height: calc(100% - 75px); */
+  height: 100%;
   width: 0;
   position: fixed;
   z-index: 1;
   left: 0;
-  transition: 0.5s;
+  top: 0;
+  transition: width 0.5s;
   background-color: var(--sidenav-bg);
   font-size: 20px;
 }
@@ -384,24 +389,26 @@ body {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  width: 100%;
   overflow-x: hidden;
-}
-
-.sidenav div * {
-  text-decoration: none;
-  color: var(--sidenav-text);
-  transition: 0.3s;
-  margin: 0px 0px 0px 25px;
-  white-space: nowrap;
 }
 
 #mainSection {
   transition: margin-left 0.5s;
 }
+
 .sideNavbtnsCont {
   cursor: pointer;
-  padding: 5%;
+  padding: 5% 0%;
+  margin: 0px 24px 0px 0px;
+}
+
+.sideNavbtnsCont * {
+  margin: 0px;
+  text-decoration: none;
+  color: var(--sidenav-text);
+  transition: 0.3s;
+  white-space: nowrap;
+  margin-left: 24px;
 }
 
 #sidenavArrowBtn {
@@ -420,25 +427,28 @@ body {
 }
 
 #usernameCont {
-  margin: 50px 0px 30px 0px;
+  padding: 120px 0px 30px 25px;
 }
+
 #username {
   color: var(--username-text);
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: 10px;
+  padding-left: 10px;
   text-transform: uppercase;
   font-weight: 700;
+  margin: 0%;
 }
 
 #logout {
   position: absolute;
   bottom: 5%;
   background-color: rgba(211, 210, 210);
-  transition: 0.3s;
+  transition: background-color 0.3s;
   width: 100%;
   margin: 0%;
   overflow-x: hidden;
+  padding: 5%;
 }
 
 #logout:hover {
