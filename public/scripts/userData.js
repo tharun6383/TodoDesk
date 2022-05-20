@@ -22,7 +22,8 @@ const profileBtn = document.getElementById('profileBtn');
 const mainSection = document.getElementById('mainSection');
 const mySidenav = document.getElementById('mySidenav');
 const sidenavArrowBtn = document.getElementById('sidenavArrowBtn');
-const darkThemeBtn = document.getElementById('darkThemeBtn');
+// const darkThemeBtn = document.getElementById('darkThemeBtn');
+const darkThemeBtn = document.getElementById('darkThemeBtn-dropdown-content');
 
 import {
   clearSection,
@@ -290,12 +291,16 @@ sidenavArrowBtn.addEventListener('click', () => {
   openCloseSideNav();
 });
 
-darkThemeBtn.addEventListener('click', () => {
-  const currTheme = document.documentElement.getAttribute('data-theme');
-  document.documentElement.setAttribute(
-    'data-theme',
-    currTheme === 'light' || currTheme === null ? 'dark' : 'light'
-  );
+darkThemeBtn.addEventListener('click', (e) => {
+  currSelectedTheme = e.target.innerHTML.toLowerCase();
+  if (currSelectedTheme === 'light' || currSelectedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', currSelectedTheme);
+  } else if (currSelectedTheme === 'system') {
+    document.documentElement.setAttribute(
+      'data-theme',
+      isSysThemeDark.matches ? 'dark' : 'light'
+    );
+  }
 });
 
 const requestOptionsGet = {
@@ -304,3 +309,14 @@ const requestOptionsGet = {
 };
 displayLoadingSkeleton(notStartedSection, inProgressSection, completedSection);
 callAPI('/userTaskData', requestOptionsGet).then((result) => loadTasks(result));
+
+let currSelectedTheme = 'light'; //default theme
+let isSysThemeDark = window.matchMedia('(prefers-color-scheme: dark)');
+isSysThemeDark.addEventListener('change', (isDark) => {
+  if (currSelectedTheme === 'system') {
+    document.documentElement.setAttribute(
+      'data-theme',
+      isDark.matches ? 'dark' : 'light'
+    );
+  }
+});
