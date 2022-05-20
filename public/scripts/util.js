@@ -16,6 +16,19 @@ export const clearSection = (...section) => {
   });
 };
 
+export const displayLoadingSkeleton = (...section) => {
+  section.forEach((element) => {
+    element.innerHTML = `<div class="taskCard is-loading">
+    <input id="taskTitle"/>
+    <input id="startDate" />
+    <input id="endDate" />
+    <svg class="doneBtn"></svg>
+    <svg class="editBtn"></svg>
+    <svg class="deleteBtn"></svg>
+  </div>`;
+  });
+};
+
 /**Highlight card when date is due */
 export const highlightCard = (notStartedSection, inProgressSection) => {
   Array.from(notStartedSection.children).forEach((card) => {
@@ -58,4 +71,6 @@ export const enableDisablePopup = (obj, msg) => {
   }
 };
 
-callAPI('/username', requestOptionsGet).then((res) => (usernameBox.innerHTML = res.username));
+callAPI('/username', requestOptionsGet).then(
+  (res) => (usernameBox.innerHTML = res.username)
+);

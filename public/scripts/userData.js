@@ -18,6 +18,12 @@ const sortInProgressBtn = document.getElementById('sortInProgressBtn');
 const sortCompletedBtn = document.getElementById('sortCompletedBtn');
 const deletePopup = document.getElementById('delete-popup');
 const editPopup = document.getElementById('edit-popup');
+const profileBtn = document.getElementById('profileBtn');
+const mainSection = document.getElementById('mainSection');
+const mySidenav = document.getElementById('mySidenav');
+const sidenavArrowBtn = document.getElementById('sidenavArrowBtn');
+// const darkThemeBtn = document.getElementById('darkThemeBtn');
+const darkThemeBtn = document.getElementById('darkThemeBtn-dropdown-content');
 
 import {
   clearSection,
@@ -25,6 +31,7 @@ import {
   sortTask,
   callAPI,
   enableDisablePopup,
+  displayLoadingSkeleton,
 } from './util.js';
 
 let userData = [];
@@ -114,6 +121,11 @@ newTaskInsertBtn.addEventListener('click', () => {
   if (newTaskTitle.value && newTaskStartDate.value && newTaskEndDate.value) {
     const requestOptions = { ...requestOptionsPost };
     requestOptions.body = `["${newTaskTitle.value}","${newTaskStartDate.value}","${newTaskEndDate.value}","notStarted"]`;
+    displayLoadingSkeleton(
+      notStartedSection,
+      inProgressSection,
+      completedSection
+    );
     callAPI('/newTask', requestOptions).then((result) => loadTasks(result));
     [newTaskTitle.value, newTaskStartDate.value, newTaskEndDate.value] = [
       '',
@@ -128,7 +140,9 @@ newTaskInsertBtn.addEventListener('click', () => {
 searchBarInput.addEventListener('input', () => {
   const resultData = [];
   for (const task of Object.values(userData)) {
-    if (task[0].search(searchBarInput.value) != -1) {
+    if (
+      task[0].toLowerCase().search(searchBarInput.value.toLowerCase()) != -1
+    ) {
       resultData.push(task);
     }
   }
@@ -147,6 +161,11 @@ const tickTask = () => {
     btn.addEventListener('click', () => {
       const requestOptions = { ...requestOptionsPost };
       requestOptions.body = `{"id":"${btn.getAttribute('data-tid')}"}`;
+      displayLoadingSkeleton(
+        notStartedSection,
+        inProgressSection,
+        completedSection
+      );
       callAPI('/tickTask', requestOptions).then((result) => loadTasks(result));
     });
   });
@@ -164,6 +183,11 @@ const deleteTask = () => {
           if (e.target.id === 'deleteYes') {
             const requestOptions = { ...requestOptionsPost };
             requestOptions.body = `{"id":"${id}"}`;
+            displayLoadingSkeleton(
+              notStartedSection,
+              inProgressSection,
+              completedSection
+            );
             callAPI('/deleteTask', requestOptions)
               .then((result) => loadTasks(result))
               .then(() => {
@@ -197,6 +221,11 @@ const editTask = () => {
           if (e.target.id === 'editSaveBtn') {
             const requestOptions = { ...requestOptionsPost };
             requestOptions.body = `{"id":"${id}","taskTitle":"${editTaskTitle.value}","startDate":"${editTaskStartDate.value}","endDate":"${editTaskEndDate.value}"}`;
+            displayLoadingSkeleton(
+              notStartedSection,
+              inProgressSection,
+              completedSection
+            );
             callAPI('/modifyTask', requestOptions)
               .then((result) => loadTasks(result))
               .then(() => {
@@ -244,8 +273,50 @@ const dragDropTask = (id, section) => {
   });
 };
 
+const openCloseSideNav = () => {
+  let isOpen = parseInt(mySidenav.style.width) > 0 ? true : false;
+  mainSection.style.marginLeft = mySidenav.style.width = isOpen
+    ? '0px'
+    : '250px';
+  sidenavArrowBtn.style.transform = isOpen
+    ? 'translateX(55%) rotate(0deg)'
+    : 'translateX(55%) rotate(180deg)';
+};
+
+profileBtn.addEventListener('click', () => {
+  openCloseSideNav();
+});
+
+sidenavArrowBtn.addEventListener('click', () => {
+  openCloseSideNav();
+});
+
+darkThemeBtn.addEventListener('click', (e) => {
+  currSelectedTheme = e.target.innerHTML.toLowerCase();
+  if (currSelectedTheme === 'light' || currSelectedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', currSelectedTheme);
+  } else if (currSelectedTheme === 'system') {
+    document.documentElement.setAttribute(
+      'data-theme',
+      isSysThemeDark.matches ? 'dark' : 'light'
+    );
+  }
+});
+
 const requestOptionsGet = {
   method: 'GET',
   redirect: 'follow',
 };
+displayLoadingSkeleton(notStartedSection, inProgressSection, completedSection);
 callAPI('/userTaskData', requestOptionsGet).then((result) => loadTasks(result));
+
+let currSelectedTheme = 'light'; //default theme
+let isSysThemeDark = window.matchMedia('(prefers-color-scheme: dark)');
+isSysThemeDark.addEventListener('change', (isDark) => {
+  if (currSelectedTheme === 'system') {
+    document.documentElement.setAttribute(
+      'data-theme',
+      isDark.matches ? 'dark' : 'light'
+    );
+  }
+});
